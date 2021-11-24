@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewreport" content="width=device-width, initial-scale=1.0">
-    <title>WEB RATING</title>
+    <title>WEB RATING (Admin)</title>
     <link rel="stylesheet" href="../../asset/css/bootstrap.css">
     <link rel="stylesheet" href="../../asset/css/sidebar.css">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -20,7 +20,7 @@ session_start();
 
 if($_SESSION['username'] == null){
 
-    header('Location:../../index.php');
+    header('Location:../index.php');
 }
 ?>
 <body>
@@ -40,12 +40,14 @@ if($_SESSION['username'] == null){
                 </div>
                 <div class="sidebar-header">
                     <div class="user-pic">
-                        <img class="img-responsive img-rounded" src="../../asset/images/logo1.png" alt="User Picture">
+                        <img class="img-responsive img-rounded" src="../asset/images/logo1.png" alt="User Picture">
                     </div>
                     <div class="user-info">
                         <span class="user-name">
                             <?php
-                            echo $_SESSION['username'];
+                            // echo $_SESSION['username'];
+
+                            include "../../get_profile.php";
                             ?>
                         </span>
                         <span class="user-role">Admin</span>
@@ -70,28 +72,28 @@ if($_SESSION['username'] == null){
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="#">Dosen</a>
+                                        <a href="../Dosen/index.php">Dosen</a>
                                     </li>
                                     <li>
-                                        <a href="#">Instruktur</a>
+                                        <a href="../instruktur/index.php">Instruktur</a>
                                     </li>
                                     <li>
-                                        <a href="#">Asisten Dosen</a>
+                                        <a href="../asisten/index.php">Asisten Dosen</a>
                                     </li>
                                     <li>
-                                        <a href="#">Transaksi Matakuliah</a>
+                                        <a href="../mk_pilih/index.php">Transaksi Matakuliah</a>
                                     </li>
                                     <li>
-                                        <a href="#">Matakuliah</a>
+                                        <a href="../matakuliah/index.php">Matakuliah</a>
                                     </li>
                                     <li>
                                         <a href="#">Rating</a>
                                     </li>
                                     <li>
-                                        <a href="#">Kelas</a>
+                                        <a href="../kelas/index.php">Kelas</a>
                                     </li>
                                     <li>
-                                        <a href="#">Tahun Akademik</a>
+                                        <a href="../thnakademik/index.php">Tahun Akademik</a>
                                     </li>
                                 </ul>
                             </div>
@@ -104,16 +106,16 @@ if($_SESSION['username'] == null){
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="list_user.php">Data Admin</a>
+                                        <a href="../user/test.php">Data Admin</a>
                                     </li>
                                     <li>
-                                        <a href="#">Data Dosen</a>
+                                        <a href="../user/list_dosen.php">Data Dosen</a>
                                     </li>
                                     <li>
-                                        <a href="#">Data Mahasiswa</a>
+                                        <a href="../user/list_mhs.php">Data Mahasiswa</a>
                                     </li>
                                     <li>
-                                        <a href="#">Data Role</a>
+                                        <a href="../user/list_role.php">Data Role</a>
                                     </li>
                                 </ul>
                             </div>
@@ -126,19 +128,19 @@ if($_SESSION['username'] == null){
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="#">Grafik Dosen</a>
+                                        <a href="dosen.php">Grafik Dosen</a>
                                     </li>
                                     <li>
-                                        <a href="#">Grafik Instruktur</a>
+                                        <a href="instruktur.php">Grafik Instruktur</a>
                                     </li>
                                     <li>
-                                        <a href="#">Grafik Asisten</a>
+                                        <a href="asdos.php">Grafik Asisten</a>
                                     </li>
                                     <li>
-                                        <a href="#">Grafik Matakuliah</a>
+                                        <a href="matkul.php">Grafik Matakuliah</a>
                                     </li>
                                     <li>
-                                        <a href="#">Grafik Matakuliah/Dosen</a>
+                                        <a href="matkul_dosen.php">Grafik Matakuliah/Dosen</a>
                                     </li>
                                 </ul>
                             </div>
@@ -148,61 +150,108 @@ if($_SESSION['username'] == null){
             </div>
 
             <!-- Sidebar content -->
-            <div class="sidebar-footer">                
-                <a href="../../index.php">
-                    <i class="fa fa-power-off"></i>
-                </a>    
-                <?php
-                //unset($_SESSION['username']);
-                ?>
+            <div class="sidebar-footer">              
+                <a href="../aut/logout.php">
+                    <i class="fa fa-power-off"></i>                    
+                </a>
             </div>
         </nav>
 
         <!-- Sidebar Wrapper -->
     <main class="page-content">
-        <div class="container-fluid">
-
-        <h3>Edit</h3>
-        <hr>
-
-        <?php
-        include "../../koneksi.php";
-        $id = $_GET['id'];
-        $query_mysql = mysqli_query($koneksi, "SELECT * FROM user WHERE id='$id'")or die(mysqli_error());
-        $nomor = 1;
-        while($data = mysqli_fetch_array($query_mysql)){
-        ?>
-
-            <form action="update.php" method="post">
-                <table>
-                    <tr>
-                        <td>NIK/NM</td>
-                        <td>
-                            <input type="hidden" namne="id" value="<?php echo $data['id']?>">
-                            <input type="text" name="nik/nim" value="<?php echo $data['nik_nim'] ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Username</td>
-                        <td>
-                            <input type="text" name="username" value="<?php echo $data['username'] ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Password</td>
-                        <td>
-                            <input type="text" name="password" value="<?php echo $data['password'] ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Simpan</td>
-                        <td><button onclick='jacascript:alert("data anda berhasil di update")' href='#'>Simpan</button></td>
-                    </tr>
-                </table>
-            </form>
-        <?php } ?>           
-
-        </div>
+    <div style="width: 800px;margin: 0px auto;">
+		<canvas id="myChart"></canvas>
+	</div>
+ 
+	<br/>
+	<br/>
+ 
+	<!-- <table>
+		<thead>
+			<tr>
+				<th>No</th>
+				<th>Nama Mahasiswa</th>
+				<th>NIM</th>
+				<th>Fakultas</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php 
+			$no = 1;
+			$data = mysqli_query($koneksi,"select * from rating");
+			while($d=mysqli_fetch_array($data)){
+				?>
+				<tr>
+					<td><?php echo $no++; ?></td>
+					<td><?php echo $d['nama']; ?></td>
+					<td><?php echo $d['nim']; ?></td>
+					<td><?php echo $d['fakultas']; ?></td>
+				</tr>
+				<?php 
+			}
+			?>
+		</tbody>
+	</table> -->
+ 
+ 
+	<script>
+		var ctx = document.getElementById("myChart").getContext('2d');
+		var myChart = new Chart(ctx, {
+			type: 'pie',
+			data: {
+				labels: ["1", "2", "3", "4","5"],
+				datasets: [{
+					label: '',
+					data: [
+					<?php 
+					$satu = mysqli_query($koneksi,"select * from rating where rate='1'");
+					echo mysqli_num_rows($satu);
+					?>, 
+					<?php 
+					$dua = mysqli_query($koneksi,"select * from rating where rate='2'");
+					echo mysqli_num_rows($dua);
+					?>, 
+					<?php 
+					$tiga = mysqli_query($koneksi,"select * from rating where rate='3'");
+					echo mysqli_num_rows($tiga);
+					?>, 
+					<?php 
+					$empat = mysqli_query($koneksi,"select * from rating where rate='4'");
+					echo mysqli_num_rows($empat);
+					?>,
+					<?php 
+					$lima = mysqli_query($koneksi,"select * from rating where rate='5'");
+					echo mysqli_num_rows($lima);
+					?>
+					],
+					backgroundColor: [
+					'rgba(255, 99, 132, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(255, 206, 86, 0.2)',
+					'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)'
+					],
+					borderColor: [
+					'rgba(255,99,132,1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+					],
+					borderWidth: 1
+				}]
+			},
+			options: {
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero:true
+						}
+					}]
+				}
+			}
+		});
+	</script>
     </main>
     </div>
 
@@ -212,6 +261,9 @@ if($_SESSION['username'] == null){
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="../../asset/js/sidebar.js"></script>
+    <script src="../../asset/js/Chart.bundle.js"></script>
+    <script type="text/javascript" src="../../asset/js/Chart.js"></script>
+
 
 </body>
 

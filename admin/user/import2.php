@@ -1,11 +1,9 @@
 <?php
-
-//loud file koneksi
-include "../koneksi.php";
+include "../../koneksi.php";
 
 if(isset($_POST['import'])){ //jika user mengklik tombol import
     $nama_file_baru = 'data.xlsx';
-
+    
     //load librari PHPexcel nya
     require_once 'PHPExcel/PHPExcel.php';
 
@@ -16,14 +14,15 @@ if(isset($_POST['import'])){ //jika user mengklik tombol import
     $numrow = 1;
     foreach($sheet as $row){
         //ambil data pada excel sesuai kolom
-        $nis = $row['A'];
-        $nama = $row['B'];
-        $jenis_kelamin = $row['C'];
-        $telp = $row['D'];
-        $alamat = $row['E'];
+        $id = $row['A'];
+        $nik = $row['B'];
+        $nama = $row['C'];
+        $username = $row['D'];
+        $pass = $row['E'];
+        $role = $row['F'];
 
         //cek jika semua data tidak diisi
-        if($nis == "" && $nama == "" && $jenis_kelamin == "" && $telp == "" && $alamat == "")
+        if($id == "" && $nik == "" && $nama == "" && $username == "" && $pass == "" && $role == "")
         continue; //lewat data pada baris ini (masuk ke looping selanjutnya / baris selanjutnya)
 
         //cek $numrow apakah lebih dari 1
@@ -32,12 +31,13 @@ if(isset($_POST['import'])){ //jika user mengklik tombol import
         if($numrow > 1){
             //proses simpan ke database
             //buat query insert
-            $sql = $pdo->prepare("insert into siswa values(:nis,:nama,:jenis_kelamin,:telp,:alamat)");
-            $sql->bindParam(':nis', $nis);
+            $sql = $pdo->prepare("insert into user2 values(:id,:nik_nim,:nama,:username,:pass,:level)");
+            $sql->bindParam(':id', $id);
+            $sql->bindParam(':nik_nim', $nik);
             $sql->bindParam(':nama', $nama);
-            $sql->bindParam(':jenis_kelamin', $jenis_kelamin);
-            $sql->bindParam(':telp', $telp);
-            $sql->bindParam(':alamat', $alamat);
+            $sql->bindParam(':username', $username);
+            $sql->bindParam(':password', $pass);
+            $sql->bindParam(':level', $role);
             $sql->execute();
         }
 
@@ -46,5 +46,5 @@ if(isset($_POST['import'])){ //jika user mengklik tombol import
 
 }
 
-header('location: index.php');
+header('location: list_admin.php');
 ?>

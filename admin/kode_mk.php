@@ -122,7 +122,7 @@ if($_SESSION['username'] == null){
                                             <a href="asisten/index.php">Asisten Dosen</a>
                                         </li>
                                         <li>
-                                            <a href="kode_mk.php">Matakuliah</a>
+                                            <a href="kode_mk.php.php">Matakuliah</a>
                                         </li>
                                         <li>
                                             <a href="kelas/index.php">Kelas</a>
@@ -174,8 +174,36 @@ if($_SESSION['username'] == null){
         <!-- Sidebar Wrapper -->
     <main class="page-content">
         <div class="container-fluid">
-            <h3>Halo  </h3>
+        <h3>Daftar Matakuliah</h3>
 
+        <hr>
+
+        <div class="table table-striped">
+            <table style="width:100%">
+                <tr>
+                    <th>Kode MK</th>
+                    <th>Matakuliah</th>                           
+                </tr>
+
+                <?php
+                
+                //load file koneksi
+                include "../koneksi.php";
+
+                //buat query untuk menampilkan semua data user
+                $sql = $pdo->prepare("select * from daftar_mk");
+                $sql->execute(); //eksekusi query
+
+                $no = 1; //untuk tabel awal di set dengan 1
+                while($data = $sql->fetch()){
+                    ?>
+                    <tr>
+                        <td><?php echo $data['kode_mk']; ?></td>
+                        <td><?php echo $data['matkul']; ?></td> 
+                    </tr>                                                      
+                    <?php } ?>
+            </table>
+        </div>
         </div>
     </main>
     </div>

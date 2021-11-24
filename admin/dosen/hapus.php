@@ -6,9 +6,13 @@ include "../../koneksi.php";
 $id = $_GET['id'];
 
 //menghapus data dari database
-mysqli_query($koneksi, "delete from user where id='$id'");
+$query = mysqli_query($koneksi, "delete from user where id='$id'");
 
 //mengalihkan halaman kembali ke index.php
-header("location:index.php");
+if($query){
+    header("location:index.php?pesan=data berhasil dihapus");
+} else {
+    die("gagal menambahkan data");
+}
 
 ?>

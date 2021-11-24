@@ -7,13 +7,6 @@ $nama = $_POST['nama'];
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-
-
-// mysqli_query($koneksi, "UPDATE user SET nik_nim='$nik_nim', username='$username', password='$password' WHERE id='$id'");
-
-// header("location:list_admin.php?pesan=update");
-
-
 $sql = "UPDATE user SET nik_nim='$nik_nim', nama='$nama', username='$username', password='$password' WHERE id='$id'";
 
 

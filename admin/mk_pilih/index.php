@@ -69,8 +69,8 @@ if($_SESSION['username'] == null){
                             </a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                <li>
-                                        <a href="../mk_pilih/index.php">Transaksi Matakuliah</a>
+                                    <li>
+                                        <a href="index.php">Transaksi Matakuliah</a>
                                     </li>
                                     <li>
                                         <a href="../matakuliah/index.php">Matakuliah</a>
@@ -89,16 +89,16 @@ if($_SESSION['username'] == null){
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="list_admin.php">Data Admin</a>
+                                        <a href="../user/list_admin.php">Data Admin</a>
                                     </li>
                                     <li>
-                                        <a href="list_dosen.php">Data Dosen</a>
+                                        <a href="../user/list_dosen.php">Data Dosen</a>
                                     </li>
                                     <li>
-                                        <a href="list_mhs.php">Data Mahasiswa</a>
+                                        <a href="../user/list_mhs.php">Data Mahasiswa</a>
                                     </li>
                                     <li>
-                                        <a href="list_role.php">Data Role</a>
+                                        <a href="../user/list_role.php">Data Role</a>
                                     </li>
                                 </ul>
                             </div>
@@ -174,20 +174,24 @@ if($_SESSION['username'] == null){
         <!-- Sidebar Wrapper -->
         <main class="page-content">
             <div class="container-fluid">
-                <h3>Data Admin</h3>
+                <h3>Data Kelas</h3>
 
                 <hr>
 
                 <div class="table table-striped">
                     <table style="width:100%">
                         <tr>
-                            <th>NO</th>
-                            <th>NIK</th>
-                            <th>Nama</th>
-                            <th>Username</th>
-                            <th>Password</th>
-                            <th>Role</th>
-                            <th>Opsi</th>
+                            <th>Tahun Akademik</th>                            
+                            <th>Semester</th>                            
+                            <th>Kode MK</th>                            
+                            <th>Matakuliah</th>                            
+                            <th>Kelas</th>                            
+                            <th>Dosen</th>                            
+                            <th>Instruktur</th>                            
+                            <th>Asisten</th>                            
+                            <th>Nama</th>                            
+                            <th>Nim</th>                            
+                            <th>Opsi</th>                            
                         </tr>
 
                         <?php
@@ -196,19 +200,23 @@ if($_SESSION['username'] == null){
                         include "../../koneksi.php";
 
                         //buat query untuk menampilkan semua data user
-                        $sql = $pdo->prepare("select * from user where level='Dosen'");
+                        $sql = $pdo->prepare("select * from mk_pilh");
                         $sql->execute(); //eksekusi query
 
                         $no = 1; //untuk tabel awal di set dengan 1
                         while($data = $sql->fetch()){
                             ?>
                             <tr>
-                                <td><?php echo $no++; ?></td>
-                                <td><?php echo $data['nik_nim']; ?></td>
-                                <td><?php echo $data['nama']; ?></td>
-                                <td><?php echo $data['username']; ?></td>
-                                <td><?php echo $data['password']; ?></td>
-                                <td><?php echo $data['level']; ?></td>
+                                <td><?php echo $data['tahunakademik']; ?></td>
+                                <td><?php echo $data['smstr']; ?></td>
+                                <td><?php echo $data['kodemk']; ?></td>
+                                <td><?php echo $data['matkul']; ?></td>
+                                <td><?php echo $data['kelas']; ?></td>
+                                <td><?php echo $data['dosen']; ?></td>
+                                <td><?php echo $data['instruktur']; ?></td>
+                                <td><?php echo $data['asdos']; ?></td>
+                                <td><?php echo $data['mhs']; ?></td>
+                                <td><?php echo $data['nim']; ?></td>
                                 <td>
                                     <a type="button" class="btn btn-dark" href="aksi_edit.php?id=<?php echo $data['id']; ?>">Edit</a>
                                     <a type="button" class="btn btn-danger" href="hapus.php?id=<?php echo $data['id']; ?>" onClick="return confirm('ingin menghapus data?')">Hapus</a>
@@ -217,126 +225,11 @@ if($_SESSION['username'] == null){
                             </tr>                                                      
                             <?php } ?>
                     </table>
-                </div>
-
+                </div> 
+                
                 <form action="" method="post" enctype="multipart/form-data">
-                    <input type="file" name="file" class="pull-left">
-
-                    <button type="submit" name="preview" class="btn btn-success btn-sm">
-                        <span class="glyphicon clyphigon-eye-open"></span> Preview
-                    </button>
+                    <a type="submit" class="btn btn-success" href="tambah.php">Tambah</a>
                 </form>
-
-                <!-- Buat Preview Data -->
-                <?php
-                //jika user telah mengklik tombol preview
-                if(isset($_POST['preview'])){
-                    $nama_file_baru = 'data.xlsx';
-
-                    //cek apakah terdapat file data.xlsx pada folder tmp
-                    if(is_file('tmp/'.$nama_file_baru)) //jika file tersebut ada
-                        unlink('tmp/'.$nama_file_baru);
-
-                    $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
-                    $tmp_file = $_FILES['file']['tmp_name'];
-
-                    //cek apakah file yang diupload adalah file excel 2007 (xlsx)
-                    if($ext == "xlsx"){
-                        //upload file yang dipilih ke folder tmp
-                        move_uploaded_file($tmp_file, 'tmp/'.$nama_file_baru);
-
-                        //load librari PHPExcel
-                        require_once '../../import/PHPExcel/PHPExcel.php';
-
-                        $excelreader = new PHPExcel_Reader_Excel2007();
-                        $loadexcel = $excelreader->load('tmp/'.$nama_file_baru); //load file yang tadi di upload ke folder tmp
-                        $sheet = $loadexcel->getActiveSheet()->toArray(null, true, true, true);
-
-                        //buat sebuah tag form untuk sebuah proses import data ke database
-                        echo "<form method='post' action='import.php'>";
-
-
-                        //buat sebuah div untuk alert validasi kosong
-                        echo "<div class='alert alert-danger' id='kosong'>
-                        Semua data belum diisi, Ada <span id='jumlah_kosong'></span> data yang belum diisi.
-                        </div>";
-
-                        echo "<table class='table table-bordered'>
-                        <tr>
-                            <th colspan='5' class='text-center'>Preview Data</th>
-                        </tr>
-                        <tr>                        
-                            <th>NIK</th>
-                            <th>Nama</th>
-                            <th>Username</th>
-                            <th>Password</th>
-                            <th>Role</th>
-                        </tr>";
-
-                        $numrow = 1;
-                        $kosong = 0;
-                        foreach($sheet as $row){ //lakukan pengulangan dari data yang ada di excel
-                            //ambil data pada excel sesuai kolom
-                            $nik = $row['A'];
-                            $nama = $row['B'];
-                            $username = $row['C'];
-                            $password = $row['D'];
-                            $role = $row['E']; 
-                            
-                            //cek jika semua data tidak diisi
-                            if($nik == "" && $nama == "" && $username == "" && $password == "" && $role == "")
-                                continue;
-
-                            //cek $numrow apakah lebih dari 1
-                            //artinya karena baris pertama adalah nama nama kolom
-                            //jadi dilewat saja, tidak usah diimport
-                            if($numrow > 1){
-                                //validasi apakah semua data telah diisi
-                                $nik_td = ( ! empty($nik))? "" : "style='background: #E07171;'";
-                                $nama_td = ( ! empty($nama))? "" : "style='background: #E07171;'";
-                                $user_td = ( ! empty($username))? "" : "style='background: #E07171;'";
-                                $pass_td = ( ! empty($password))? "" : "style='background: #E07171;'";
-                                $role_td = ( ! empty($role))? "" : "style='background: #E07171;'";
-
-                                //jika salah satu data ada yang kosong
-                                if($nik == "" or $username == "" or $password == "" or $role == ""){
-                                    $kosong++;
-                                }
-
-                                echo "<tr>";
-                                echo "<td".$nik_td.">".$nik."</td>";
-                                echo "<td".$nama_td.">".$nama."</td>";
-                                echo "<td".$user_td.">".$username."</td>";
-                                echo "<td".$pass_td.">".$password."</td>";
-                                echo "<td".$role_td.">".$role."</td>";                                
-                                echo "</tr>";
-                            }
-
-                            $numrow++;
-
-                        }
-
-                        echo "</table>";
-
-                        //cek apakah variabel kosong lebih dari 0
-                        //jika lebih dari 0, maka ada data yang masih kosong
-                        if($kosong > 0){
-                            ?>
-
-                            <script>
-                                $(document).ready(function()){
-                                    //ubah isi dari tag span dengan id jumlah_kosong dengan isi dari variabel kosong
-                                    $("jumlah_kosong").html('<?php echo $kosong; ?>');
-
-                                    $("#kosong").show(); //munculkan alert validasi
-                                }
-                            </script>
-                            <?php
-                            
-                        }
-                    }
-                }
-                ?>
             </div>
         </main>
     </div>

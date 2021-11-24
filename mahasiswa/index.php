@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+d<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -45,7 +45,7 @@ if($_SESSION['username'] == null){
                     <div class="user-info">
                         <span class="user-name">
                             <?php
-                            include "../../get_profile.php";
+                            include "../get_profile.php";
                             ?>
                         </span>
                         <span class="user-role">Mahasiswa</span>

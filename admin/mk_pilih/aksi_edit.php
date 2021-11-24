@@ -168,7 +168,7 @@ if($_SESSION['username'] == null){
         <?php
         include "../../koneksi.php";
         $id = $_GET['id'];
-        $query_mysql = mysqli_query($koneksi, "SELECT * FROM user WHERE id='$id'")or die(mysqli_error());
+        $query_mysql = mysqli_query($koneksi, "SELECT * FROM matkul WHERE id='$id'")or die(mysqli_error());
         $nomor = 1;
         while($data = mysqli_fetch_array($query_mysql)){
         ?>
@@ -176,22 +176,52 @@ if($_SESSION['username'] == null){
             <form action="update.php" method="post">
                 <table>
                     <tr>
-                        <td>NIK/NM</td>
+                        <td>Tahun Akademik</td>
                         <td>
-                            <input type="hidden" namne="id" value="<?php echo $data['id']?>">
-                            <input type="text" name="nik/nim" value="<?php echo $data['nik_nim'] ?>">
+                            <input type="hidden" name="id" value="<?php echo $data['id']?>">
+                            <input type="text" name="thnakademik" value="<?php echo $data['tahunakademik'] ?>">
                         </td>
                     </tr>
                     <tr>
-                        <td>Username</td>
+                        <td>Semester</td>
                         <td>
-                            <input type="text" name="username" value="<?php echo $data['username'] ?>">
+                            <input type="text" name="smstr" value="<?php echo $data['smstr'] ?>">
                         </td>
                     </tr>
                     <tr>
-                        <td>Password</td>
+                        <td>Kode MK</td>
                         <td>
-                            <input type="text" name="password" value="<?php echo $data['password'] ?>">
+                            <input type="text" name="kodemk" value="<?php echo $data['kodemk'] ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Matakuliah</td>
+                        <td>
+                            <input type="text" name="matkul" value="<?php echo $data['matkul'] ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Kelas</td>
+                        <td>
+                            <input type="text" name="kelas" value="<?php echo $data['kelas'] ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Dosen</td>
+                        <td>
+                            <input type="text" name="dosen" value="<?php echo $data['dosen'] ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Instruktur</td>
+                        <td>
+                            <input type="text" name="instruktur" value="<?php echo $data['instruktur'] ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Asisten</td>
+                        <td>
+                            <input type="text" name="asdos" value="<?php echo $data['asdos'] ?>">
                         </td>
                     </tr>
                     <tr>

@@ -2,12 +2,9 @@
 include "../../koneksi.php";
 
 $id = $_POST['id'];
-$nik_nim = $_POST['nik_nim'];
-$nama = $_POST['nama'];
-$username = $_POST['username'];
-$password = $_POST['password'];
+$name = $_POST['name'];
 
-$sql = "UPDATE user SET nik_nim='$nik_nim', nama='$nama', username='$username', password='$password' WHERE id='$id'";
+$sql = "UPDATE instruktur SET name='$name' WHERE id='$id'";
 
 
 
