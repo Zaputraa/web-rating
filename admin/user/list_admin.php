@@ -224,7 +224,7 @@ if($_SESSION['username'] == null){
                         <span class="glyphicon clyphigon-eye-open"></span> Preview
                     </button>
                     
-                    <a type="button" class="btn btn-dark" href="form.php">Form</a>
+                    <!-- <a type="button" class="btn btn-dark" href="form.php">Form</a> -->
                 </form>
 
                 <hr>
@@ -253,14 +253,13 @@ if($_SESSION['username'] == null){
                     $excelreader = new PHPExcel_Reader_Excel2007();
                     $loadexcel = $excelreader->load('tmp/'.$nama_file_baru); // Load file yang tadi diupload ke folder tmp
                     $sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
-                    
+                    $numrow = 1;
+                    $kosong = 0;
                     // Buat sebuah tag form untuk proses import data ke database
                     echo "<form method='post' action='import.php'>";
-                    
+                
                     // Buat sebuah div untuk alert validasi kosong
-                    echo "<div class='alert alert-danger' id='kosong'>
-                    Semua data belum diisi, Ada <span id='jumlah_kosong'></span> data yang belum diisi.
-                    </div>";
+                   
                     
                     echo "<table class='table table-bordered'>
                     <tr>
@@ -274,8 +273,7 @@ if($_SESSION['username'] == null){
                         <th>Role</th>
                     </tr>";
                     
-                    $numrow = 1;
-                    $kosong = 0;
+                   
                     foreach($sheet as $row){ // Lakukan perulangan dari data yang ada di excel
                         // Ambil data pada excel sesuai Kolom
                         $nik = $row['A']; // Ambil data NIS
@@ -317,21 +315,11 @@ if($_SESSION['username'] == null){
                     }
                     
                     echo "</table>";
-                    
+                   
                     // Cek apakah variabel kosong lebih dari 0
                     // Jika lebih dari 0, berarti ada data yang masih kosong
                     if($kosong > 0){
-                    ?>	
-                        <script>
-                        $(document).ready(function(){
-                        console.log($kosong)
-                        // Ubah isi dari tag span dengan id jumlah_kosong dengan isi dari variabel kosong
-                        $("#jumlah_kosong").html('<?php echo $kosong; ?>');
-                        
-                        $("#kosong").show(); // Munculkan alert validasi kosong
-                        });
-                        </script>
-                    <?php
+                        echo "<div class='alert alert-danger' id='kosong'> Semua data belum diisi, Ada $kosong  data yang belum diisi. </div>";
                     }else{ // Jika semua data sudah diisi
                         echo "<hr>";
                         
