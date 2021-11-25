@@ -272,7 +272,6 @@ if($_SESSION['username'] == null){
                         <th>Password</th>
                         <th>Role</th>
                     </tr>";
-                    
                    
                     foreach($sheet as $row){ // Lakukan perulangan dari data yang ada di excel
                         // Ambil data pada excel sesuai Kolom

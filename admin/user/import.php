@@ -72,22 +72,14 @@ if(isset($_POST['import'])){ //jika user mengklik tombol import
         $role = $row['E'];
 
         //cek jika semua data tidak diisi
-        if($nik == "" && $nama == "" && $username == "" && $pass == "" && $role == "")
-        continue; //lewat data pada baris ini (masuk ke looping selanjutnya / baris selanjutnya)
+        // if($nik == "" && $nama == "" && $username == "" && $pass == "" && $role == "")
+        // continue; //lewat data pada baris ini (masuk ke looping selanjutnya / baris selanjutnya)
 
         //cek $numrow apakah lebih dari 1
         //artinya karena baris pertama adalah nama-nama kolom
         //jadi dilewat saja, tidak usah diimport
         if($numrow > 1){
-            //proses simpan ke database
-            //buat query insert
-            $sql = $pdo->prepare("insert into user values(:nik_nim,:nama,:username,:pass,:level)");
-            $sql->bindParam(':nik_nim', $nik);
-            $sql->bindParam(':nama', $nama);
-            $sql->bindParam(':username', $username);
-            $sql->bindParam(':password', $pass);
-            $sql->bindParam(':level', $role);
-            $sql->execute();
+            mysqli_query($koneksi,"INSERT into user values('','$nik','$username','$nama', '$pass','$role')");
         }
 
         $numrow++;
