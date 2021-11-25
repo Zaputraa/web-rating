@@ -161,7 +161,7 @@ if($_SESSION['username'] == null){
     <main class="page-content">
         <div class="container-fluid">
             <!-- <a type="button" class="btn btn-dark" href="chart_dosen.php">Asep Setiawan</a> -->
-            <button class="btn btn-success" onclick="openpopup">Asep Setiawan</button>
+            <button class="btn btn-success" onclick="openpopup()">Asep Setiawan</button>
 
         </div>
     </main>
@@ -175,7 +175,7 @@ if($_SESSION['username'] == null){
     <script type="text/javascript" src="../../asset/js/sidebar.js"></script>
     <script>
         function openpopup(){
-            window.open('test.php', 'width=800,height=200');
+            window.open('http://localhost:8080/newsekripsi/admin/grafik/test.php', 'width=800,height=200');
         }
     </script>
 
