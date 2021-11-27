@@ -251,15 +251,11 @@ if($_SESSION['username'] == null){
                         $excelreader = new PHPExcel_Reader_Excel2007();
                         $loadexcel = $excelreader->load('tmp/'.$nama_file_baru); //load file yang tadi di upload ke folder tmp
                         $sheet = $loadexcel->getActiveSheet()->toArray(null, true, true, true);
-
+                        $numrow = 1;
+                        $kosong = 0;
                         //buat sebuah tag form untuk sebuah proses import data ke database
-                        echo "<form method='post' action='import.php'>";
+                        echo "<form method='post' action='import_mhs.php'>";
 
-
-                        //buat sebuah div untuk alert validasi kosong
-                        echo "<div class='alert alert-danger' id='kosong'>
-                        Semua data belum diisi, Ada <span id='jumlah_kosong'></span> data yang belum diisi.
-                        </div>";
 
                         echo "<table class='table table-bordered'>
                         <tr>
@@ -273,8 +269,6 @@ if($_SESSION['username'] == null){
                             <th>Role</th>
                         </tr>";
 
-                        $numrow = 1;
-                        $kosong = 0;
                         foreach($sheet as $row){ //lakukan pengulangan dari data yang ada di excel
                             //ambil data pada excel sesuai kolom
                             $nim = $row['A'];
@@ -321,21 +315,22 @@ if($_SESSION['username'] == null){
                         //cek apakah variabel kosong lebih dari 0
                         //jika lebih dari 0, maka ada data yang masih kosong
                         if($kosong > 0){
-                            ?>
-
-                            <script>
-                                $(document).ready(function()){
-                                    //ubah isi dari tag span dengan id jumlah_kosong dengan isi dari variabel kosong
-                                    $("jumlah_kosong").html('<?php echo $kosong; ?>');
-
-                                    $("#kosong").show(); //munculkan alert validasi
-                                }
-                            </script>
-                            <?php
+                            echo "<div class='alert alert-danger' id='kosong'> Semua data belum diisi, Ada $kosong  data yang belum diisi. </div>";
+                        }else{ // Jika semua data sudah diisi
+                            echo "<hr>";
                             
+                            // Buat sebuah tombol untuk mengimport data ke database
+                            echo "<button type='submit' name='import' class='btn btn-primary'><span class='glyphicon glyphicon-upload'></span> Import</button>";
+                        }
+                        
+                        echo "</form>";
+                        }else{ // Jika file yang diupload bukan File Excel 2007 (.xlsx)
+                        // Munculkan pesan validasi
+                        echo "<div class='alert alert-danger'>
+                        Hanya File Excel 2007 (.xlsx) yang diperbolehkan
+                        </div>";
                         }
                     }
-                }
                 ?>
             </div>
         </main>

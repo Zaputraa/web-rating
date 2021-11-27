@@ -20,7 +20,7 @@ session_start();
 
 if($_SESSION['username'] == null){
 
-    header('Location:../index.php');
+    header('Location:../../index.php');
 }
 ?>
 <body>
@@ -40,7 +40,7 @@ if($_SESSION['username'] == null){
                 </div>
                 <div class="sidebar-header">
                     <div class="user-pic">
-                        <img class="img-responsive img-rounded" src="../asset/images/logo1.png" alt="User Picture">
+                        <img class="img-responsive img-rounded" src="../../asset/images/logo1.png" alt="User Picture">
                     </div>
                     <div class="user-info">
                         <span class="user-name">
@@ -71,16 +71,7 @@ if($_SESSION['username'] == null){
                             </a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li>
-                                        <a href="../Dosen/index.php">Dosen</a>
-                                    </li>
-                                    <li>
-                                        <a href="../instruktur/index.php">Instruktur</a>
-                                    </li>
-                                    <li>
-                                        <a href="../asisten/index.php">Asisten Dosen</a>
-                                    </li>
-                                    <li>
+                                <li>
                                         <a href="../mk_pilih/index.php">Transaksi Matakuliah</a>
                                     </li>
                                     <li>
@@ -88,12 +79,6 @@ if($_SESSION['username'] == null){
                                     </li>
                                     <li>
                                         <a href="#">Rating</a>
-                                    </li>
-                                    <li>
-                                        <a href="../kelas/index.php">Kelas</a>
-                                    </li>
-                                    <li>
-                                        <a href="../thnakademik/index.php">Tahun Akademik</a>
                                     </li>
                                 </ul>
                             </div>
@@ -106,7 +91,7 @@ if($_SESSION['username'] == null){
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="../user/test.php">Data Admin</a>
+                                        <a href="../user/list_admin.php">Data Admin</a>
                                     </li>
                                     <li>
                                         <a href="../user/list_dosen.php">Data Dosen</a>
@@ -120,6 +105,34 @@ if($_SESSION['username'] == null){
                                 </ul>
                             </div>
                         </li>
+                        <li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fas fa-database"></i>
+                                    <span>Data Master</span>
+                                </a>
+                                <div class="sidebar-submenu">
+                                    <ul>
+                                        <li>
+                                            <a href="../dosen/index.php">Dosen</a>
+                                        </li>
+                                        <li>
+                                            <a href="../instruktur/index.php">Instruktur</a>
+                                        </li>
+                                        <li>
+                                            <a href="../asisten/index.php">Asisten Dosen</a>
+                                        </li>
+                                        <li>
+                                            <a href="../kode_mk.php">Matakuliah</a>
+                                        </li>
+                                        <li>
+                                            <a href="../kelas/index.php">Kelas</a>
+                                        </li>
+                                        <li>
+                                            <a href="../thnakademik/index.php">Tahun Akademik</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                         <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fa fa-chart-line"></i>
@@ -160,8 +173,47 @@ if($_SESSION['username'] == null){
         <!-- Sidebar Wrapper -->
     <main class="page-content">
         <div class="container-fluid">
+
+            <h3>Grafik Dosen</h3>
+
+            <hr>
+
+            <div class="table table-striped">
+                    <table style="width:100%">
+                        <tr>
+                            <th>NO</th>
+                            <th>NIK</th>                            
+                            <th>Nama</th>                            
+                            <th>Opsi</th>                            
+                        </tr>
+
+                        <?php
+                        
+                        //load file koneksi
+                        include "../../koneksi.php";
+
+                        //buat query untuk menampilkan semua data user
+                        $sql = $pdo->prepare("select * from user where level='Dosen'");
+                        $sql->execute(); //eksekusi query
+
+                        $no = 1; //untuk tabel awal di set dengan 1
+                        while($data = $sql->fetch()){
+                            ?>
+                            <tr>
+                                <td><?php echo $no++; ?></td>
+                                <td><?php echo $data['nik_nim']; ?></td>
+                                <td><?php echo $data['nama']; ?></td>
+                                <td>                                    
+                                    <a type="button" class="btn btn-outline-primary" href="chart_dosen.php?nama=<?php echo $data['nama']; ?>">Rate</a>
+                                </td> 
+
+                            </tr>                                                      
+                            <?php } ?>
+                    </table>
+                </div>
+
             <!-- <a type="button" class="btn btn-dark" href="chart_dosen.php">Asep Setiawan</a> -->
-            <button class="btn btn-success" onclick="openpopup()">Asep Setiawan</button>
+            <!-- <button class="btn btn-success" onclick="openpopup()">Asep Setiawan</button> -->
 
         </div>
     </main>
@@ -173,11 +225,6 @@ if($_SESSION['username'] == null){
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="../../asset/js/sidebar.js"></script>
-    <script>
-        function openpopup(){
-            window.open('http://localhost:8080/newsekripsi/admin/grafik/test.php', 'width=800,height=200');
-        }
-    </script>
 
 </body>
 

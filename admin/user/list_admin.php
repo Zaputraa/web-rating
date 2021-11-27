@@ -256,7 +256,7 @@ if($_SESSION['username'] == null){
                     $numrow = 1;
                     $kosong = 0;
                     // Buat sebuah tag form untuk proses import data ke database
-                    echo "<form method='post' action='import.php'>";
+                    echo "<form method='post' action='import_admin.php'>";
                 
                     // Buat sebuah div untuk alert validasi kosong
                    
