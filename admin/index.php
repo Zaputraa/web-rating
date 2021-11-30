@@ -78,7 +78,7 @@ if($_SESSION['username'] == null){
                                         <a href="matakuliah/index.php">Matakuliah</a>
                                     </li>
                                     <li>
-                                        <a href="#">Rating</a>
+                                        <a href="rate/index.php">Rating</a>
                                     </li>
                                     </li>
                                 </ul>

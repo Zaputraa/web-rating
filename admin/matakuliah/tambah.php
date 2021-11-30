@@ -171,10 +171,14 @@ if($_SESSION['username'] == null){
             </div>
         </nav>
 
+        <?php
+        include "../../koneksi.php"
+        ?>
+
         <!-- Sidebar Wrapper -->
         <main class="page-content">
             <div class="container-fluid">
-                <form action="tambah_aksi.php" method="get">
+                <form action="tambah_aksi.php" method="post">
                     <table class="table-form">
                         <tr>
                             <td class="td-thnakademik">Tahun Akademik :</td>
@@ -229,7 +233,7 @@ if($_SESSION['username'] == null){
                         <tr>
                             <td class="td-kode_mk">Kode MK :</td>
                             <td>
-                                <select name="kode_mk" class="drpdwn">
+                                <select name="kode_mk" id="kodemk" class="drpdwn" onchange="myFunction(this.value)">
                                     <option disabled selected>Pilih</option>
                                     <?php
                                     //Membuat koneksi ke database akademik
@@ -237,14 +241,15 @@ if($_SESSION['username'] == null){
                                     if (!$kon){
                                     die("Koneksi database gagal:".mysqli_connect_error());
                                     }							
-                                    $sql="select kode_mk from daftar_mk GROUP by kode_mk ORDER BY kode_mk";
+                                    // $sql="select kode_mk from daftar_mk GROUP by kode_mk ORDER BY kode_mk";
+                                    $sql="select * from daftar_mk GROUP by kode_mk ORDER BY kode_mk";
 
                                     $hasil=mysqli_query($kon,$sql);
                                     $no=0;
                                     while ($data = mysqli_fetch_array($hasil)) {
                                     $no++;
                                     ?>
-                                    <option value="<?php echo $data['kode_mk'];?>"><?php echo $data['kode_mk'];?></option>
+                                    <option value="<?php echo $data['matkul'];?>"><?php echo $data['kode_mk'];?></option>
                                     <?php 
                                     }
                                     ?>
@@ -254,26 +259,14 @@ if($_SESSION['username'] == null){
                         <tr>
                             <td class="td-matkul">Matakuliah :</td>
                             <td>
-                                <select name="matkul" class="drpdwn">
-                                    <option disabled selected>Pilih</option>
-                                    <?php
-                                    //Membuat koneksi ke database akademik
-                                    $kon = mysqli_connect("localhost",'root',"","db_webrating");
-                                    if (!$kon){
-                                    die("Koneksi database gagal:".mysqli_connect_error());
-                                    }							
-                                    $sql="select matkul from daftar_mk GROUP by matkul ORDER BY matkul";
-
-                                    $hasil=mysqli_query($kon,$sql);
-                                    $no=0;
-                                    while ($data = mysqli_fetch_array($hasil)) {
-                                    $no++;
-                                    ?>
-                                    <option value="<?php echo $data['matkul'];?>"><?php echo $data['matkul'];?></option>
-                                    <?php 
+                                <!-- <input type="text" id="mk"> -->
+                                <textarea name="matkul" type="text" id="mk" cols="30" rows="2"></textarea>
+                                <script>
+                                    function myFunction(){
+                                        var tes = document.getElementById("kodemk").value;
+                                            document.getElementById("mk").value = tes;
                                     }
-                                    ?>
-                                </select>
+                                </script>
                             </td>
                         </tr>
                         <tr>
@@ -312,7 +305,7 @@ if($_SESSION['username'] == null){
                                     if (!$kon){
                                     die("Koneksi database gagal:".mysqli_connect_error());
                                     }							
-                                    $sql="select nama from user GROUP by nama ORDER BY nama";
+                                    $sql="select nama from user where level='Dosen' GROUP by nama ORDER BY nama";
 
                                     $hasil=mysqli_query($kon,$sql);
                                     $no=0;
@@ -392,6 +385,11 @@ if($_SESSION['username'] == null){
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="../../asset/js/sidebar.js"></script>
+    <!-- <script>
+        function myFunction(val){
+            alert("The input value has changed. The new value is: " + val);
+        }
+    </script> -->
 
 </body>
 

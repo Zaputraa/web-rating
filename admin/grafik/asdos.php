@@ -189,8 +189,7 @@ if($_SESSION['username'] == null){
                                 <td><?php echo $no++; ?></td>
                                 <td><?php echo $data['nama']; ?></td>
                                 <td>
-                                    <a type="button" name="btn_dosen" class="btn btn-outline-primary" onclick="myfunction()">Rate</a>
-                                    <!-- <a type="button" class="btn btn-danger" href="hapus.php?id=<?php echo $data['id']; ?>" onClick="return confirm('ingin menghapus data?')">Hapus</a> -->
+                                    <a type="button" class="btn btn-outline-primary" href="chart_asdos.php?nama=<?php echo $data['nama']; ?>">Rate</a>
                                 </td> 
 
                             </tr>                                                      

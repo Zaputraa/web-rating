@@ -111,7 +111,7 @@ if($_SESSION['username'] == null){
 
             <hr>
 
-            <div class="table table-striped">
+            <div class="container">
                 <?php
                 include "../koneksi.php";
                 $id = $_GET['id'];
@@ -127,7 +127,7 @@ if($_SESSION['username'] == null){
                             </tr>
                             <tr>
                                 <td class="td-input">Tanggal</td>
-                                <td><input type="text" class="input" name="tgl" value="<?php echo date('d / m / yy'); ?>"></td>
+                                <td><input type="text" class="input" name="tgl" value="<?php echo date('d / m / y'); ?>"></td>
                                 <td class="td-text">Rate</td>
                                 <td>
                                     <select name="rate" class="dropdown">
@@ -141,31 +141,35 @@ if($_SESSION['username'] == null){
                                 </td>
                             </tr>
                             <tr>
-                                <td class="td-input">Semester</td>
+                                <td class="td-input">Semester </td>
                                 <td><input type="text" class="input" name="smstr" value="<?php echo $d['smstr']; ?>"></td>
-                                <td class="td-text">Saran</td>
-                                <td><textarea name="saran" cols="30" rows="10" maxlength="500" required="required" type="text"></textarea></td>
+                                <td class="td-text"> Saran </td>
+                                <td><textarea name="saran" cols="50" rows="2" maxlength="500" required="required" type="text"></textarea></td>
                             </tr>
                             <tr>
-                                <td class="td-input">Tahun Akademik</td>
+                                <td class="td-input">Tahun Akademik </td>
                                 <td><input type="text" class="input" name="thnakademik" value=<?php echo $d['tahunakademik']; ?>></td>
                                 <td></td>
                                 <td><input type="submit" class="simpan" value="SIMPAN"></td>
                             </tr>
                             <tr>
-                                <td class="td-input">Matakuliah</td>
-                                <td><input type="text" class="input" name="matkul" value="<?php echo $d['matklu']; ?>"></td>
+                                <td class="td-input">Matakuliah </td>
+                                <td><input type="text" class="input" name="matkul" value="<?php echo $d['matkul']; ?>"></td>
                             </tr>
                             <tr>
-                                <td class="td-input">Kelas</td>
+                                <td class="td-input">Kelas </td>
                                 <td><input type="text" class="input" name="kelas" value="<?php echo $d['kelas']; ?>"></td>
                             </tr>
                             <tr>
-                                <td class="td-input">Dosen</td>
+                                <td class="td-input">Dosen </td>
                                 <td><input type="text" class="input" name="dosen" value="<?php echo $d['dosen']; ?>"></td>
                             </tr>
                             <tr>
-                                <td class="td-input">Asisten Dosen</td>
+                                <td class="td-input">Instruktur </td>
+                                <td><input type="text" class="input" name="instruktur" value="<?php echo $d['instruktur']; ?>"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-input">Asisten Dosen  </td>
                                 <td><input type="text" class="input" name="asdos" value="<?php echo $d['asdos']; ?>"></td>
                             </tr>
                         </table>

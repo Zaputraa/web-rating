@@ -174,7 +174,7 @@ if($_SESSION['username'] == null){
         <!-- Sidebar Wrapper -->
         <main class="page-content">
             <div class="container-fluid">
-                <h3>Data Kelas</h3>
+                <h3>Data Matakuliah</h3>
 
                 <hr>
 

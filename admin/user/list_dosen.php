@@ -204,7 +204,7 @@ if($_SESSION['username'] == null){
                             ?>
                             <tr>
                                 <td><?php echo $no++; ?></td>
-                                <td><?php echo $data['nik_nim']; ?></td>
+                                <td>0<?php echo $data['nik_nim']; ?></td>
                                 <td><?php echo $data['nama']; ?></td>
                                 <td><?php echo $data['username']; ?></td>
                                 <td><?php echo $data['password']; ?></td>
@@ -246,7 +246,7 @@ if($_SESSION['username'] == null){
                         move_uploaded_file($tmp_file, 'tmp/'.$nama_file_baru);
 
                         //load librari PHPExcel
-                        require_once '../../import/PHPExcel/PHPExcel.php';
+                        require_once 'PHPExcel/PHPExcel.php';
 
                         $excelreader = new PHPExcel_Reader_Excel2007();
                         $loadexcel = $excelreader->load('tmp/'.$nama_file_baru); //load file yang tadi di upload ke folder tmp

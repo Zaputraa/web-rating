@@ -112,35 +112,39 @@ if($_SESSION['username'] == null){
             <hr>
 
             <div class="table table-striped">
-                <table>
-                    <tr>
-                        <th>Kode MK</th>
-                        <th>Matakuliah</th>
-                        <th>Kelas</th>
-                        <th>Opsi</th>
-                    </tr>
-
-                    <?php
-
-                    //load file koneksi
-                    include "../koneksi.php";
-
-                    //query untuk menampilkan semua data user
-                    $sql = $pdo->prepare("select * from mk_pilh");
-                    $sql->execute(); //eksekusi query
-
-                    while($data = $sql->fetch()){
-                        ?>
+                <form action="rate.php" method="get">
+                    <table style="width:100%">
                         <tr>
-                            <td><?php echo $data['kodemk']; ?></td>
-                            <td><?php echo $data['matkul']; ?></td>
-                            <td><?php echo $data['kelas']; ?></td>
-                            <td>
-                                <a href="rate.php" type="button" class="btn btn-primary">Rate</a>
-                            </td>
+                            <th>Kode MK</th>
+                            <th>Matakuliah</th>
+                            <th>Kelas</th>
+                            <th>Opsi</th>
                         </tr>
-                    <?php } ?>
-                </table>
+
+                        <?php
+
+                        //load file koneksi
+                        include "../koneksi.php";
+
+                        //query untuk menampilkan semua data user
+                        $sql = $pdo->prepare("select * from mk_pilh where mhs='$nama'");
+                        $sql->execute(); //eksekusi query
+
+                        while($data = $sql->fetch()){
+                            ?>
+                            <tr>
+                                <td><?php echo $data['kodemk']; ?></td>
+                                <td><?php echo $data['matkul']; ?></td>
+                                <td><?php echo $data['kelas']; ?></td>
+                                <td>
+                                    <a href="rate.php?id=<?php echo $data['id'] ?>" type="button" class="btn btn-primary">Rate</a>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </table>
+
+                </form>
+                
 
             </div>
 

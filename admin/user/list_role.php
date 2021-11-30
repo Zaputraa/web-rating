@@ -198,7 +198,7 @@ if($_SESSION['username'] == null){
                         while($data = $sql->fetch()){
                             echo "<tr>";
                             echo "<td>".$no."</td>";
-                            echo "<td>".$data['role']."</td>";
+                            echo "<td>".$data['level']."</td>";
                             // echo "<td>
                             //     <a type='button' class='btn btn-dark' href='aksi_edit.php'>Edit</a>
                             //     <button class='btn btn-danger' href='#'>Hapus</button>

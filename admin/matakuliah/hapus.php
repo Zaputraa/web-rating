@@ -9,7 +9,7 @@ if( isset($_GET['id']) ){
     $id = $_GET['id'];
 
     // buat query hapus
-    $sql = "DELETE FROM kelas WHERE id=$id";
+    $sql = "DELETE FROM matkul WHERE id=$id";
     $query = mysqli_query($koneksi, $sql);
 
     // apakah query hapus berhasil?
