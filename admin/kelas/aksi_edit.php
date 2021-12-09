@@ -33,7 +33,7 @@ if($_SESSION['username'] == null){
         <nav id="sidebar" class="sidebar-wrapper">
             <div class="sidebar-content">
                 <div class="sidebar-brand">
-                    <a href="index.php">Web Rating</a>
+                    <a href="../index.php">Web Rating</a>
                     <div id="close-sidebar">
                         <i class="fas fa-times"></i>
                     </div>
@@ -45,7 +45,7 @@ if($_SESSION['username'] == null){
                     <div class="user-info">
                         <span class="user-name">
                             <?php
-                            echo $_SESSION['username'];
+                            include "../../get_profile.php";
                             ?>
                         </span>
                         <span class="user-role">Admin</span>
@@ -70,28 +70,13 @@ if($_SESSION['username'] == null){
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="#">Dosen</a>
+                                        <a href="../mk_pilih/index.php">Transaksi Matakuliah</a>
                                     </li>
                                     <li>
-                                        <a href="#">Instruktur</a>
+                                        <a href="../matakuliah/index.php">Matakuliah</a>
                                     </li>
                                     <li>
-                                        <a href="#">Asisten Dosen</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Transaksi Matakuliah</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Matakuliah</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Rating</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Kelas</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Tahun Akademik</a>
+                                        <a href="../rate/index.php">Rating</a>
                                     </li>
                                 </ul>
                             </div>
@@ -104,20 +89,48 @@ if($_SESSION['username'] == null){
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="list_user.php">Data Admin</a>
+                                        <a href="../user/list_admin.php">Data Admin</a>
                                     </li>
                                     <li>
-                                        <a href="#">Data Dosen</a>
+                                        <a href="../user/list_dosen.php">Data Dosen</a>
                                     </li>
                                     <li>
-                                        <a href="#">Data Mahasiswa</a>
+                                        <a href="../user/list_mhs.php">Data Mahasiswa</a>
                                     </li>
                                     <li>
-                                        <a href="#">Data Role</a>
+                                        <a href="../user/list_role.php">Data Role</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
+                        <li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fas fa-database"></i>
+                                    <span>Data Master</span>
+                                </a>
+                                <div class="sidebar-submenu">
+                                    <ul>
+                                        <li>
+                                            <a href="../Dosen/index.php">Dosen</a>
+                                        </li>
+                                        <li>
+                                            <a href="../instruktur/index.php">Instruktur</a>
+                                        </li>
+                                        <li>
+                                            <a href="../asisten/index.php">Asisten Dosen</a>
+                                        </li>
+                                        <li>
+                                            <a href="../kode_mk.php">Matakuliah</a>
+                                        </li>
+                                        <li>
+                                            <a href="index.php">Kelas</a>
+                                        </li>
+                                        <li>
+                                            <a href="../thnakademik/index.php">Tahun Akademik</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                         <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fa fa-chart-line"></i>
@@ -126,19 +139,19 @@ if($_SESSION['username'] == null){
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="#">Grafik Dosen</a>
+                                        <a href="../grafik/dosen.php">Grafik Dosen</a>
                                     </li>
                                     <li>
-                                        <a href="#">Grafik Instruktur</a>
+                                        <a href="../grafik/instruktur.php">Grafik Instruktur</a>
                                     </li>
                                     <li>
-                                        <a href="#">Grafik Asisten</a>
+                                        <a href="../grafik/asdos.php">Grafik Asisten</a>
                                     </li>
                                     <li>
-                                        <a href="#">Grafik Matakuliah</a>
+                                        <a href="../grafik/matkul.php">Grafik Matakuliah</a>
                                     </li>
                                     <li>
-                                        <a href="#">Grafik Matakuliah/Dosen</a>
+                                        <a href="../grafik/matkul_dosen.php">Grafik Matakuliah/Dosen</a>
                                     </li>
                                 </ul>
                             </div>
@@ -148,13 +161,10 @@ if($_SESSION['username'] == null){
             </div>
 
             <!-- Sidebar content -->
-            <div class="sidebar-footer">                
-                <a href="../../index.php">
-                    <i class="fa fa-power-off"></i>
-                </a>    
-                <?php
-                //unset($_SESSION['username']);
-                ?>
+            <div class="sidebar-footer">              
+                <a href="../../aut/logout.php">
+                    <i class="fa fa-power-off"></i>                    
+                </a>
             </div>
         </nav>
 

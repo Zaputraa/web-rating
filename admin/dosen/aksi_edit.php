@@ -69,29 +69,14 @@ if($_SESSION['username'] == null){
                             </a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li>
-                                        <a href="#">Dosen</a>
+                                <li>
+                                        <a href="../mk_pilih/index.php">Transaksi Matakuliah</a>
                                     </li>
                                     <li>
-                                        <a href="#">Instruktur</a>
+                                        <a href="../matakuliah/index.php">Matakuliah</a>
                                     </li>
                                     <li>
-                                        <a href="#">Asisten Dosen</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Transaksi Matakuliah</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Matakuliah</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Rating</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Kelas</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Tahun Akademik</a>
+                                        <a href="../rate/index.php">Rating</a>
                                     </li>
                                 </ul>
                             </div>
@@ -104,20 +89,48 @@ if($_SESSION['username'] == null){
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="list_user.php">Data Admin</a>
+                                        <a href="../user/list_admin.php">Data Admin</a>
                                     </li>
                                     <li>
-                                        <a href="#">Data Dosen</a>
+                                        <a href="../user/list_dosen.php">Data Dosen</a>
                                     </li>
                                     <li>
-                                        <a href="#">Data Mahasiswa</a>
+                                        <a href="../user/list_mhs.php">Data Mahasiswa</a>
                                     </li>
                                     <li>
-                                        <a href="#">Data Role</a>
+                                        <a href="../user/list_role.php">Data Role</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
+                        <li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fas fa-database"></i>
+                                    <span>Data Master</span>
+                                </a>
+                                <div class="sidebar-submenu">
+                                    <ul>
+                                        <li>
+                                            <a href="index.php">Dosen</a>
+                                        </li>
+                                        <li>
+                                            <a href="../instruktur/index.php">Instruktur</a>
+                                        </li>
+                                        <li>
+                                            <a href="../asisten/index.php">Asisten Dosen</a>
+                                        </li>
+                                        <li>
+                                            <a href="../kode_mk.php">Matakuliah</a>
+                                        </li>
+                                        <li>
+                                            <a href="../kelas/index.php">Kelas</a>
+                                        </li>
+                                        <li>
+                                            <a href="../thnakademik/index.php">Tahun Akademik</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                         <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fa fa-chart-line"></i>
@@ -126,19 +139,19 @@ if($_SESSION['username'] == null){
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="#">Grafik Dosen</a>
+                                        <a href="../grafik/dosen.php">Grafik Dosen</a>
                                     </li>
                                     <li>
-                                        <a href="#">Grafik Instruktur</a>
+                                        <a href="../grafik/instruktur.php">Grafik Instruktur</a>
                                     </li>
                                     <li>
-                                        <a href="#">Grafik Asisten</a>
+                                        <a href="../grafik/asdos.php">Grafik Asisten</a>
                                     </li>
                                     <li>
-                                        <a href="#">Grafik Matakuliah</a>
+                                        <a href="../grafik/matkul.php">Grafik Matakuliah</a>
                                     </li>
                                     <li>
-                                        <a href="#">Grafik Matakuliah/Dosen</a>
+                                        <a href="../grafik/matkul_dosen.php">Grafik Matakuliah/Dosen</a>
                                     </li>
                                 </ul>
                             </div>
@@ -155,6 +168,142 @@ if($_SESSION['username'] == null){
                 <?php
                 //unset($_SESSION['username']);
                 ?>
+            </div>
+        </nav><nav id="sidebar" class="sidebar-wrapper">
+            <div class="sidebar-content">
+                <div class="sidebar-brand">
+                    <a href="../index.php">Web Rating</a>
+                    <div id="close-sidebar">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                <div class="sidebar-header">
+                    <div class="user-pic">
+                        <img class="img-responsive img-rounded" src="../../asset/images/logo1.png" alt="User Picture">
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">
+                            <?php
+                            include "../../get_profile.php";
+                            ?>
+                        </span>
+                        <span class="user-role">Admin</span>
+                        <span class="user-status">
+                            <i class="fa fa-circle"></i>
+                            <span>Online</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- sidebar menu -->
+                <div class="sidebar-menu">
+                    <ul>
+                        <li class="header-menu">
+                            <span>General</span>
+                        </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-graduation-cap"></i>
+                                <span>Data Perkuliahan</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                <li>
+                                        <a href="../mk_pilih/index.php">Transaksi Matakuliah</a>
+                                    </li>
+                                    <li>
+                                        <a href="../matakuliah/index.php">Matakuliah</a>
+                                    </li>
+                                    <li>
+                                        <a href="../rate/index.php">Rating</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class=sidebar-dropdown>
+                            <a href="#">
+                                <i class="fa fa-user"></i>
+                                <span>Data User</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="../user/list_admin.php">Data Admin</a>
+                                    </li>
+                                    <li>
+                                        <a href="../user/list_dosen.php">Data Dosen</a>
+                                    </li>
+                                    <li>
+                                        <a href="../user/list_mhs.php">Data Mahasiswa</a>
+                                    </li>
+                                    <li>
+                                        <a href="../user/list_role.php">Data Role</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fas fa-database"></i>
+                                    <span>Data Master</span>
+                                </a>
+                                <div class="sidebar-submenu">
+                                    <ul>
+                                        <li>
+                                            <a href="index.php">Dosen</a>
+                                        </li>
+                                        <li>
+                                            <a href="../instruktur/index.php">Instruktur</a>
+                                        </li>
+                                        <li>
+                                            <a href="../asisten/index.php">Asisten Dosen</a>
+                                        </li>
+                                        <li>
+                                            <a href="../kode_mk.php">Matakuliah</a>
+                                        </li>
+                                        <li>
+                                            <a href="../kelas/index.php">Kelas</a>
+                                        </li>
+                                        <li>
+                                            <a href="../thnakademik/index.php">Tahun Akademik</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-chart-line"></i>
+                                <span>Grafik Rating</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="../grafik/dosen.php">Grafik Dosen</a>
+                                    </li>
+                                    <li>
+                                        <a href="../grafik/instruktur.php">Grafik Instruktur</a>
+                                    </li>
+                                    <li>
+                                        <a href="../grafik/asdos.php">Grafik Asisten</a>
+                                    </li>
+                                    <li>
+                                        <a href="../grafik/matkul.php">Grafik Matakuliah</a>
+                                    </li>
+                                    <li>
+                                        <a href="../grafik/matkul_dosen.php">Grafik Matakuliah/Dosen</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>                        
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sidebar content -->
+            <div class="sidebar-footer">              
+                <a href="../../aut/logout.php">
+                    <i class="fa fa-power-off"></i>                    
+                </a>
             </div>
         </nav>
 
@@ -176,16 +325,16 @@ if($_SESSION['username'] == null){
             <form action="update.php" method="post">
                 <table>
                     <tr>
-                        <td>NIK/NM</td>
+                        <td>NIK</td>
                         <td>
                             <input type="hidden" namne="id" value="<?php echo $data['id']?>">
                             <input type="text" name="nik/nim" value="<?php echo $data['nik_nim'] ?>">
                         </td>
                     </tr>
                     <tr>
-                        <td>Username</td>
+                        <td>Nama</td>
                         <td>
-                            <input type="text" name="username" value="<?php echo $data['username'] ?>">
+                            <input type="text" name="username" value="<?php echo $data['nama'] ?>">
                         </td>
                     </tr>
                     <tr>

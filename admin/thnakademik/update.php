@@ -3,9 +3,8 @@ include "../../koneksi.php";
 
 $id = $_POST['id'];
 $thn = $_POST['thnakademik'];
-$smstr = $_POST['smstr'];
 
-$sql = "UPDATE tahunakademik SET thn='$thn', smstr='$smstr' WHERE id='$id'";
+$sql = "UPDATE tahunakademik SET thn='$thn' WHERE id='$id'";
 
 
 

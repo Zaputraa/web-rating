@@ -76,7 +76,7 @@ if($_SESSION['username'] == null){
                                         <a href="../matakuliah/index.php">Matakuliah</a>
                                     </li>
                                     <li>
-                                        <a href="#">Rating</a>
+                                        <a href="../rate/index.php">Rating</a>
                                     </li>
                                 </ul>
                             </div>
@@ -161,20 +161,76 @@ if($_SESSION['username'] == null){
             </div>
 
             <!-- Sidebar content -->
-            <div class="sidebar-footer">                
-                <a href="../../index.php">
-                    <i class="fa fa-power-off"></i>
-                </a>    
-                <?php
-                //unset($_SESSION['username']);
-                ?>
+            <div class="sidebar-footer">              
+                <a href="../../aut/logout.php">
+                    <i class="fa fa-power-off"></i>                    
+                </a>
             </div>
         </nav>
 
         <!-- Sidebar Wrapper -->
         <main class="page-content">
             <div class="container-fluid">
-                <h3>Data Kelas</h3>
+                <h3>Data Transaksi Matakuliah</h3>
+
+                <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <i class="fas fa-filter"></i>
+                </button>
+
+                <div class="collapse" id="collapseExample">
+                    <form action="index.php" method="get">
+                        <label>Semester :</label>
+                        <select class="drpdwn" name="cari">
+                            <option disabled selcted> Pilih </option>
+                            <?php
+                            include "../../koneksi.php";
+
+                            $sql = "select * from semester order by smstr";
+
+                            $hasil = mysqli_query($koneksi, $sql);
+                            $no=0;
+                            while($data = mysqli_fetch_array($hasil)){
+                                $no++;
+                                ?>
+                                <option value="<?php echo $data['smstr']; ?>"><?php echo $data['smstr'] ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <label>Tahun Akademik :</label>
+
+                        <select name="thn" class="drpdwn">
+                            <option disabled selected>Pilih</option>
+                            <?php
+                            $sql = "select * from tahunakademik order by thn";
+
+                            $hasil = mysqli_query($koneksi,$sql);
+                            $no=0;
+                            while($data = mysqli_fetch_array($hasil)){
+                                $no++;
+                                ?>
+
+                                <option value="<?php echo $data['thn']?>"><?php echo $data['thn']?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        
+                        <button class="cari btn btn-secondary" type="submit">Cari</button>
+                    </form>
+
+                    
+                </div>
+
+                <br>
+
+                <?php
+                if(isset($_GET['cari']) AND isset($_GET['thn'])){
+                    $cari = $_GET['cari'];
+                    $thn = $_GET['thn'];
+                    echo "<b>Hasil pencarian : ".$cari." dan ".$thn,"</b>";
+                }
+                ?>
 
                 <hr>
 
@@ -228,8 +284,141 @@ if($_SESSION['username'] == null){
                 </div> 
                 
                 <form action="" method="post" enctype="multipart/form-data">
-                    <a type="submit" class="btn btn-success" href="tambah.php">Tambah</a>
+                    <input type="file" name="file" class="pull-left">
+
+                    <button type="submit" name="preview" class="btn btn-success btn-sm">
+                        <span class="glyphicon clyphigon-eye-open"></span> Preview
+                    </button>
                 </form>
+                
+                <hr>
+
+                <!-- Buat Preview Data -->
+                <?php
+                // Jika user telah mengklik tombol Preview
+                if(isset($_POST['preview'])){
+                    $nama_file_baru = 'data.xlsx';
+                    
+                    // Cek apakah terdapat file data.xlsx pada folder tmp
+                    if(is_file('tmp/'.$nama_file_baru)) // Jika file tersebut ada
+                    unlink('tmp/'.$nama_file_baru); // Hapus file tersebut
+                    
+                    $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION); // Ambil ekstensi filenya apa
+                    $tmp_file = $_FILES['file']['tmp_name'];
+
+                    // Cek apakah file yang diupload adalah file Excel 2007 (.xlsx)
+                    if($ext == "xlsx"){
+                    // Upload file yang dipilih ke folder tmp
+                    move_uploaded_file($tmp_file, 'tmp/'.$nama_file_baru);
+                    
+                    // Load librari PHPExcel nya
+                    require_once 'PHPExcel/PHPExcel.php';
+                    
+                    $excelreader = new PHPExcel_Reader_Excel2007();
+                    $loadexcel = $excelreader->load('tmp/'.$nama_file_baru); // Load file yang tadi diupload ke folder tmp
+                    $sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
+                    $numrow = 1;
+                    $kosong = 0;
+                    // Buat sebuah tag form untuk proses import data ke database
+                    echo "<form method='post' action='import_mk.php'>";
+                
+                    // Buat sebuah div untuk alert validasi kosong
+                   
+                    
+                    echo "<table class='table table-bordered'>
+                    <tr>
+                        <th colspan='5' class='text-center'>Preview Data</th>
+                    </tr>
+                    <tr>
+                        <th>Tahun Akademik</th>
+                        <th>Semester</th>
+                        <th>Kode MK</th>
+                        <th>Matakuliah</th>
+                        <th>Kelas</th>
+                        <th>Dosen</th>
+                        <th>Instruktur</th>
+                        <th>Asisten Dosen</th>
+                        <th>Mahasiswa</th>
+                        <th>NIM</th>
+                    </tr>";
+                   
+                    foreach($sheet as $row){ // Lakukan perulangan dari data yang ada di excel
+                        // Ambil data pada excel sesuai Kolom
+                        $thnakademik = $row['A']; // Ambil data Tahun Akademik
+                        $smstr = $row['B']; // Ambil data Semester
+                        $kodemk = $row['C']; // Ambil data Kode MK
+                        $mk = $row['D']; // Ambil data Matakuliah
+                        $kelas = $row['E']; // Ambil data Kelas
+                        $dosen = $row['F']; // Ambil data Dosen
+                        $instruktur = $row['G']; // Ambil data Instruktur
+                        $asdos = $row['H']; // Ambil data jenis Asisten
+                        $mhs = $row['I']; // Ambil data Mahasiswa
+                        $nim = $row['J']; // Ambil data NIM
+                        
+                        // Cek jika semua data tidak diisi
+                        if($thnakademik == "" && $smstr == "" && $kodemk == "" && $mk == "" && $kelas == "" && $dosen == "" && $instruktur == "" && $asdos == "" && $mhs == "" && $nim == "")
+                        continue; // Lewat data pada baris ini (masuk ke looping selanjutnya / baris selanjutnya)
+                        
+                        // Cek $numrow apakah lebih dari 1
+                        // Artinya karena baris pertama adalah nama-nama kolom
+                        // Jadi dilewat saja, tidak usah diimport
+                        if($numrow > 1){
+                        // Validasi apakah semua data telah diisi
+                        $thn_td = ( ! empty($thnakademik))? "" : " style='background: #E07171;'"; // Jika NIS kosong, beri warna merah
+                        $smstr_td = ( ! empty($smstr))? "" : " style='background: #E07171;'"; // Jika Nama kosong, beri warna merah
+                        $kodemk_td = ( ! empty($kodemk))? "" : " style='background: #E07171;'"; // Jika Jenis Kelamin kosong, beri warna merah
+                        $mk_td = ( ! empty($mk))? "" : " style='background: #E07171;'"; // Jika Telepon kosong, beri warna merah
+                        $kelas_td = ( ! empty($kelas))? "" : " style='background: #E07171;'"; // Jika Alamat kosong, beri warna merah
+                        $dosen_td = ( ! empty($dosen))? "" : " style='background: #E07171;'"; // Jika NIS kosong, beri warna merah
+                        $ins_td = ( ! empty($instruktur))? "" : " style='background: #E07171;'"; // Jika Nama kosong, beri warna merah
+                        $asdos_td = ( ! empty($asdos))? "" : " style='background: #E07171;'"; // Jika Jenis Kelamin kosong, beri warna merah
+                        $mhs_td = ( ! empty($mhs))? "" : " style='background: #E07171;'"; // Jika Telepon kosong, beri warna merah
+                        $nim_td = ( ! empty($nim))? "" : " style='background: #E07171;'"; // Jika Alamat kosong, beri warna merah
+                        
+                        // Jika salah satu data ada yang kosong
+                        if($thnakademik == "" or $smstr == "" or $kodemk == "" or $mk == "" or $kelas == "" or $dosen == "" or $instruktur == "" or $asdos == "" or $mhs == "" or $nim == ""){
+                            $kosong++; // Tambah 1 variabel $kosong
+                        }
+                        
+                        echo "<tr>";
+                        echo "<td".$thn_td.">".$thnakademik."</td>";
+                        echo "<td".$smstr_td.">".$smstr."</td>";
+                        echo "<td".$kodemk_td.">".$kodemk."</td>";
+                        echo "<td".$mk_td.">".$mk."</td>";
+                        echo "<td".$kelas_td.">".$kelas."</td>";
+                        echo "<td".$dosen_td.">".$dosen."</td>";
+                        echo "<td".$ins_td.">".$instruktur."</td>";
+                        echo "<td".$asdos_td.">".$asdos."</td>";
+                        echo "<td".$mhs_td.">".$mhs."</td>";
+                        echo "<td".$nim_td.">".$nim."</td>";
+                        echo "</tr>";
+                        }
+                        
+                        $numrow++; // Tambah 1 setiap kali looping
+                    }
+                    
+                    echo "</table>";
+                   
+                    // Cek apakah variabel kosong lebih dari 0
+                    // Jika lebih dari 0, berarti ada data yang masih kosong
+                    if($kosong > 0){
+                        echo "<div class='alert alert-danger' id='kosong'> Semua data belum diisi, Ada $kosong  data yang belum diisi. </div>";
+                    }else{ // Jika semua data sudah diisi
+                        echo "<hr>";
+                        
+                        // Buat sebuah tombol untuk mengimport data ke database
+                        echo "<button onclick='jacascript:alert('data anda berhasil ditambahkan') type='submit' name='import' class='btn btn-primary'><span class='glyphicon glyphicon-upload'></span> Import</button>";
+                    }
+                    
+                    echo "</form>";
+                    }else{ // Jika file yang diupload bukan File Excel 2007 (.xlsx)
+                    // Munculkan pesan validasi
+                    echo "<div class='alert alert-danger'>
+                    Hanya File Excel 2007 (.xlsx) yang diperbolehkan
+                    </div>";
+                    }
+                }
+                ?>
             </div>
         </main>
     </div>

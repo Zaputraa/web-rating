@@ -78,7 +78,7 @@ if($_SESSION['username'] == null){
                                         <a href="../matakuliah/index.php">Matakuliah</a>
                                     </li>
                                     <li>
-                                        <a href="#">Rating</a>
+                                        <a href="../rate/index.php">Rating</a>
                                     </li>
                                 </ul>
                             </div>
@@ -164,7 +164,7 @@ if($_SESSION['username'] == null){
 
             <!-- Sidebar content -->
             <div class="sidebar-footer">              
-                <a href="../aut/logout.php">
+                <a href="../../aut/logout.php">
                     <i class="fa fa-power-off"></i>                    
                 </a>
             </div>

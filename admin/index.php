@@ -40,7 +40,7 @@ if($_SESSION['username'] == null){
                 </div>
                 <div class="sidebar-header">
                     <div class="user-pic">
-                        <img class="img-responsive img-rounded" src="../asset/images/logo1.png" alt="User Picture">
+                        <img class="img-responsive img-rounded" src="../asset/images/logo1.png" alt="User Picture" style="max-width: 50; max-height: 50;">
                     </div>
                     <div class="user-info">
                         <span class="user-name">

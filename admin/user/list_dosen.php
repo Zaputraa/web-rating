@@ -76,7 +76,7 @@ if($_SESSION['username'] == null){
                                         <a href="../matakuliah/index.php">Matakuliah</a>
                                     </li>
                                     <li>
-                                        <a href="#">Rating</a>
+                                        <a href="../rate/index.php">Rating</a>
                                     </li>
                                 </ul>
                             </div>
@@ -161,20 +161,17 @@ if($_SESSION['username'] == null){
             </div>
 
             <!-- Sidebar content -->
-            <div class="sidebar-footer">                
-                <a href="../../index.php">
-                    <i class="fa fa-power-off"></i>
-                </a>    
-                <?php
-                //unset($_SESSION['username']);
-                ?>
+            <div class="sidebar-footer">              
+                <a href="../../aut/logout.php">
+                    <i class="fa fa-power-off"></i>                    
+                </a>
             </div>
         </nav>
 
         <!-- Sidebar Wrapper -->
         <main class="page-content">
             <div class="container-fluid">
-                <h3>Data Admin</h3>
+                <h3>Data Dosen</h3>
 
                 <hr>
 
@@ -210,7 +207,7 @@ if($_SESSION['username'] == null){
                                 <td><?php echo $data['password']; ?></td>
                                 <td><?php echo $data['level']; ?></td>
                                 <td>
-                                    <a type="button" class="btn btn-dark" href="aksi_edit.php?id=<?php echo $data['id']; ?>">Edit</a>
+                                    <a type="button" class="btn btn-dark" href="aksi_edit_dosen.php?id=<?php echo $data['id']; ?>">Edit</a>
                                     <a type="button" class="btn btn-danger" href="hapus.php?id=<?php echo $data['id']; ?>" onClick="return confirm('ingin menghapus data?')">Hapus</a>
                                 </td> 
 

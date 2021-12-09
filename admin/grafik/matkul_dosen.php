@@ -78,7 +78,7 @@ if($_SESSION['username'] == null){
                                         <a href="../matakuliah/index.php">Matakuliah</a>
                                     </li>
                                     <li>
-                                        <a href="#">Rating</a>
+                                        <a href="../rate/index.php">Rating</a>
                                     </li>
                                 </ul>
                             </div>
@@ -164,7 +164,7 @@ if($_SESSION['username'] == null){
 
             <!-- Sidebar content -->
             <div class="sidebar-footer">              
-                <a href="../aut/logout.php">
+                <a href="../../aut/logout.php">
                     <i class="fa fa-power-off"></i>                    
                 </a>
             </div>
@@ -177,6 +177,19 @@ if($_SESSION['username'] == null){
             <h3>Grafik Dosen</h3>
 
             <hr>
+
+            <form action="matkul_dosen.php" method="get">
+                <label>Cari :</label>
+                <input type="text" name="cari">
+                <input type="submit" value="cari">
+            </form>
+
+            <?php
+            if(isset($_GET['cari'])){
+                $cari = $_GET['cari'];
+                echo "<b>Hasil pencarian : ".$cari."</b>";
+            }
+            ?>
 
             <div class="table table-striped">
                     <table style="width:100%">
@@ -193,18 +206,24 @@ if($_SESSION['username'] == null){
                         include "../../koneksi.php";
 
                         //buat query untuk menampilkan semua data user
-                        $sql = $pdo->prepare("select distinct matkul from matkul");
-                        $sql->execute(); //eksekusi query
+                        // $sql = $pdo->prepare("select distinct matkul,dosen from matkul");
+                        // $sql->execute(); //eksekusi query
 
+                        if(isset($_GET['cari'])){
+                            $cari = $_GET['cari'];
+                            $d = mysqli_query($koneksi,"select distinct matkul,dosen from rating where matkul like '%".$cari."%' or dosen like '%".$cari."%'");
+                        }else{
+                            $d = mysqli_query($koneksi,"select distinct matkul,dosen from rating");
+                        }
                         $no = 1; //untuk tabel awal di set dengan 1
-                        while($data = $sql->fetch()){
+                        while($data = mysqli_fetch_array($d)){
                             ?>
                             <tr>
                                 <td><?php echo $no++; ?></td>
                                 <td><?php echo $data['matkul']; ?></td>
                                 <td><?php echo $data['dosen']; ?></td>
                                 <td>                                    
-                                    <a type="button" class="btn btn-outline-primary" href="chart_mk.php?nama=<?php echo $data['matkul']; ?>">Rate</a>
+                                    <a type="button" class="btn btn-outline-primary" href="chart_mkdosen.php?matkul=<?php echo $data['matkul']; ?>&dosen=<?php echo $data['dosen']; ?>">Rate</a>
                                 </td> 
 
                             </tr>                                                      

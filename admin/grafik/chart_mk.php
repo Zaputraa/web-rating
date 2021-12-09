@@ -1,6 +1,15 @@
 <html>
 <head>
-	<title>Rating Dosen</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewreport" content="width=device-width, initial-scale=1.0">
+    <title>WEB RATING (Admin)</title>
+    <link rel="stylesheet" href="../../asset/css/bootstrap.css">
+    <link rel="stylesheet" href="../../asset/css/sidebar.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet" crossorigin="anonymous">
 	<script type="text/javascript" src="../../asset/js/Chart.js"></script>
 </head>
 <body>
@@ -16,7 +25,7 @@
  
  
 	<center>
-		<h2>GRAFIK DOSEN</h2>
+		<h2>GRAFIK MATAKULIAH</h2>
 	</center>
  
  
@@ -24,19 +33,19 @@
 	include '../../koneksi.php';
 	?>
  
-	<div style="width: 800px;margin: 0px auto;">
+	<div style="width: 600px;margin: 0px auto;">
 		<canvas id="myChart"></canvas>
 	</div>
- 
-	<br/>
-	<br/>
- 
-	<table border="1">
+	<hr>
+
+	<div class="table table-bordered">
+	<table>
 		<thead>
 			<tr>
 				<th>No</th>
 				<th>Matakuliah</th>
 				<th>Nilai</th>
+				<th>Total</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -44,20 +53,55 @@
             $nama = $_GET['nama'];
 			$rating_total = mysqli_query($koneksi, "select * from rating where matkul='$nama'");
 			$int_total = (int)mysqli_num_rows($rating_total);
-			$no = 1;
-			$data = mysqli_query($koneksi,"select * from rating where matkul='$nama'");
-			while($d=mysqli_fetch_array($data)){
-				?>
-				<tr>
-					<td><?php echo $no++; ?></td>
-					<td><?php echo $d['matkul']; ?></td>
-					<td><?php echo $d['rate']; ?></td>
-				</tr>
-				<?php 
-			}
+			
+			$query = mysqli_query($koneksi,"SELECT matkul from rating where matkul='$nama'");
+			$query_1 = mysqli_query($koneksi,"SELECT count(*) as total from rating where matkul='$nama' and rate='1'");
+			$query_2 = mysqli_query($koneksi,"SELECT count(*) as total from rating where matkul='$nama' and rate='2'");
+			$query_3 = mysqli_query($koneksi,"SELECT count(*) as total from rating where matkul='$nama' and rate='3'");
+			$query_4 = mysqli_query($koneksi,"SELECT count(*) as total from rating where matkul='$nama' and rate='4'");
+			$query_5 = mysqli_query($koneksi,"SELECT count(*) as total from rating where matkul='$nama' and rate='5'");
+
+			$data = mysqli_fetch_assoc($query);
+			$data_1 = mysqli_fetch_assoc($query_1);
+			$data_2 = mysqli_fetch_assoc($query_2);
+			$data_3 = mysqli_fetch_assoc($query_3);
+			$data_4 = mysqli_fetch_assoc($query_4);
+			$data_5 = mysqli_fetch_assoc($query_5);
 			?>
+
+			<tr>
+				<td>1</td>
+				<td><?php echo $data['matkul'];?></td>
+				<td>1</td>
+				<td><?php echo $data_1['total']; ?></td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td><?php echo $data['matkul'];?></td>
+				<td>2</td>
+				<td><?php echo $data_2['total']; ?></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td><?php echo $data['matkul'];?></td>
+				<td>3</td>
+				<td><?php echo $data_3['total']; ?></td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td><?php echo $data['matkul'];?></td>
+				<td>4</td>
+				<td><?php echo $data_4['total']; ?></td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td><?php echo $data['matkul'];?></td>
+				<td>5</td>
+				<td><?php echo $data_5['total']; ?></td>
+			</tr>
 		</tbody>
 	</table>
+	</div>
  
  
 	<script>
@@ -107,14 +151,14 @@
 					],
 					backgroundColor: [
 					'rgba(255, 99, 132, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
+					'rgba(55, 210, 69, 0.2)',
 					'rgba(255, 206, 86, 0.2)',
 					'rgba(75, 192, 192, 0.2)',
                     'rgba(153, 102, 255, 0.2)'
 					],
 					borderColor: [
 					'rgba(255,99,132,1)',
-					'rgba(54, 162, 235, 1)',
+					'rgba(55, 210, 69, 1)',
 					'rgba(255, 206, 86, 1)',
 					'rgba(75, 192, 192, 1)',
                     'rgba(153, 102, 255, 1)'

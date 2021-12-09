@@ -161,13 +161,10 @@ if($_SESSION['username'] == null){
             </div>
 
             <!-- Sidebar content -->
-            <div class="sidebar-footer">                
-                <a href="../../index.php">
-                    <i class="fa fa-power-off"></i>
-                </a>    
-                <?php
-                //unset($_SESSION['username']);
-                ?>
+            <div class="sidebar-footer">              
+                <a href="../../aut/logout.php">
+                    <i class="fa fa-power-off"></i>                    
+                </a>
             </div>
         </nav>
 
@@ -177,52 +174,190 @@ if($_SESSION['username'] == null){
                 <h3>Data Rating</h3>
 
                 <hr>
+                <div class="accordion" id="accordionExample">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-dark collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Penilaian Matakuliah
+                            </button>
+                        </h2>
+                        </div>
 
-                <div class="table table-striped">
-                    <table style="width:100%">
-                        <tr>
-                            <th>NO</th>
-                            <th>Tahun Akademik</th>                            
-                            <th>Semester</th>                            
-                            <th>Tanggal</th>                            
-                            <th>Matakuliah</th>
-                            <th>Kelas</th>                            
-                            <th>Dosen</th>                            
-                            <th>Instruktur</th>                            
-                            <th>Asisten</th>                            
-                            <th>Rating</th>                            
-                            <th>Saran</th>                            
-                        </tr>
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="table table-striped">
+                                <form action="index.php" method="get">
+                                    <label>Cari :</label>
+                                    <input type="text" name="cari">
+                                    <input type="submit" value="cari">
+                                </form>
 
-                        <?php
-                        
-                        //load file koneksi
-                        include "../../koneksi.php";
+                                <?php
+                                if(isset($_GET['cari'])){
+                                    $cari = $_GET['cari'];
+                                    echo "<b>Hasil pencarian : ".$cari."</b>";
+                                }
+                                ?>
+                                <table style="width:100%">
+                                    <tr>
+                                        <th>Kode MK</th>                            
+                                        <th>Matakuliah</th>                            
+                                        <th>Opsi</th>                            
+                                    </tr>
 
-                        //buat query untuk menampilkan semua data user
-                        $sql = $pdo->prepare("select * from rating");
-                        $sql->execute(); //eksekusi query
+                                    <?php
+                                    
+                                    //load file koneksi
+                                    include "../../koneksi.php";
 
-                        $no = 1; //untuk tabel awal di set dengan 1
-                        while($data = $sql->fetch()){
-                            ?>
-                            <tr>
-                                <td><?php echo $no++; ?></td>
-                                <td><?php echo $data['tahunakademik']; ?></td>
-                                <td><?php echo $data['smstr']; ?></td>
-                                <td><?php echo $data['tgl']; ?></td>
-                                <td><?php echo $data['matkul']; ?></td>
-                                <td><?php echo $data['kelas']; ?></td>
-                                <td><?php echo $data['dosen']; ?></td>
-                                <td><?php echo $data['instruktur']; ?></td>
-                                <td><?php echo $data['asdos']; ?></td>
-                                <td><?php echo $data['rate']; ?></td>
-                                <td><?php echo $data['saran']; ?></td>                                 
+                                    //buat query untuk menampilkan semua data user
+                                    if(isset($_GET['cari'])){
+                                        $cari = $_GET['cari'];
+                                        $d = mysqli_query($koneksi,"select * from daftar_mk where kode_mk like '%".$cari."%' or matkul like '%".$cari."%'");
+                                    }else{
+                                        $d = mysqli_query($koneksi,"select * from daftar_mk");
+                                    }
+                                    $no = 1; //untuk tabel awal di set dengan 1
+                                    while($data = mysqli_fetch_array($d)){
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $data['kode_mk']; ?></td>
+                                            <td><?php echo $data['matkul']; ?></td>
+                                            <td>                                    
+                                                <a type="button" class="btn btn-outline-primary" href="session.php?matkul=<?php echo $data['matkul']; ?>">Rate</a>
+                                            </td> 
+            
+                                        </tr>                                                      
+                                        <?php } ?>
+                                </table>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                        <h2 class="mb-0">
+                            <button class="btn btn-dark collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Panilaian Dosen
+                            </button>
+                        </h2>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="table table-striped">                                
+                                <table style="width:100%">
+                                    <tr>
+                                        <th>NO</th>                            
+                                        <th>Nama</th>                            
+                                        <th>Opsi</th>                            
+                                    </tr>
 
-                            </tr>                                                      
-                            <?php } ?>
-                    </table>
-                </div>                
+                                    <?php
+                                    
+                                    //load file koneksi
+                                    include "../../koneksi.php";
+
+                                    //buat query untuk menampilkan semua data user
+                                    $sql = $pdo->prepare("select * from dosen");
+                                    $sql->execute(); //eksekusi query
+
+                                    $no = 1; //untuk tabel awal di set dengan 1
+                                    while($data = $sql->fetch()){
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $no++; ?></td>
+                                            <td><?php echo $data['nama']; ?></td>
+                                            <td>                                    
+                                                <a type="button" class="btn btn-outline-primary" href="session.php?dosen=<?php echo $data['nama']; ?>">Rate</a>
+                                            </td>
+                                        </tr>
+                                                                                              
+                                        <?php } ?>
+                                </table>
+                            </div>
+                    </div>                    
+                    <div class="card">
+                        <div class="card-header" id="headingThree">
+                        <h2 class="mb-0">
+                            <button class="btn btn-dark collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Panilaian Instruktur
+                            </button>
+                        </h2>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                        <div class="table table-striped">                                
+                                <table style="width:100%">
+                                    <tr>
+                                        <th>NO</th>                            
+                                        <th>Nama</th>                            
+                                        <th>Opsi</th>                            
+                                    </tr>
+
+                                    <?php
+                                    
+                                    //load file koneksi
+                                    include "../../koneksi.php";
+
+                                    //buat query untuk menampilkan semua data user
+                                    $sql = $pdo->prepare("select * from instruktur");
+                                    $sql->execute(); //eksekusi query
+
+                                    $no = 1; //untuk tabel awal di set dengan 1
+                                    while($data = $sql->fetch()){
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $no++; ?></td>
+                                            <td><?php echo $data['name']; ?></td>
+                                            <td>                                    
+                                                <a type="button" class="btn btn-outline-primary" href="session.php?instruktur=<?php echo $data['name']; ?>">Rate</a>
+                                            </td>
+                                        </tr>
+                                                                                              
+                                        <?php } ?>
+                                </table>
+                            </div>
+                    </div>                    
+                    <div class="card">
+                        <div class="card-header" id="headingFour">
+                        <h2 class="mb-0">
+                            <button class="btn btn-dark collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Panilaian Asisten
+                            </button>
+                        </h2>
+                        </div>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                        <div class="table table-striped">                                
+                                <table style="width:100%">
+                                    <tr>
+                                        <th>NO</th>                            
+                                        <th>Nama</th>                            
+                                        <th>Opsi</th>                            
+                                    </tr>
+
+                                    <?php
+                                    
+                                    //load file koneksi
+                                    include "../../koneksi.php";
+
+                                    //buat query untuk menampilkan semua data user
+                                    $sql = $pdo->prepare("select * from asdos");
+                                    $sql->execute(); //eksekusi query
+
+                                    $no = 1; //untuk tabel awal di set dengan 1
+                                    while($data = $sql->fetch()){
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $no++; ?></td>
+                                            <td><?php echo $data['nama']; ?></td>
+                                            <td>                                    
+                                                <a type="button" class="btn btn-outline-primary" href="session.php?asdos=<?php echo $data['nama']; ?>">Rate</a>
+                                            </td>
+                                        </tr>
+                                                                                              
+                                        <?php } ?>
+                                </table>
+                            </div>
+                    </div>                    
+                </div>
+                               
             </div>
         </main>
     </div>
@@ -233,6 +368,7 @@ if($_SESSION['username'] == null){
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="../../asset/js/sidebar.js"></script>
+    script
 
 </body>
 

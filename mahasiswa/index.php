@@ -40,7 +40,7 @@ if($_SESSION['username'] == null){
                 </div>
                 <div class="sidebar-header">
                     <div class="user-pic">
-                        <img class="img-responsive img-rounded" src="../asset/images/logo1.png" alt="User Picture">
+                        <img class="img-responsive img-rounded" src="../asset/images/logo1.png" alt="User Picture"  style="max-width: 50; max-height: 50;">
                     </div>
                     <div class="user-info">
                         <span class="user-name">
@@ -63,31 +63,31 @@ if($_SESSION['username'] == null){
                             <span>Grafik</span>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="grafik/dosen.php">
                                 <i class="fas fa-user"></i>
                                 <span>Dosen</span>
                             </a>
                         </li>                        
                         <li>
-                            <a href="#">
+                            <a href="grafik/instruktur.php">
                                 <i class="fas fa-user"></i>
                                 <span>Instruktur</span>
                             </a>
                         </li>                        
                         <li>
-                            <a href="#">
+                            <a href="grafik/asdos.php">
                                 <i class="fas fa-user"></i>
                                 <span>Asisten</span>
                             </a>
                         </li>                        
                         <li>
-                            <a href="#">
+                            <a href="grafik/matkul.php">
                                 <i class="fas fa-file"></i>
                                 <span>Matakuliah</span>
                             </a>
                         </li>                        
                         <li>
-                            <a href="#">
+                            <a href="grafik/matkul_dosen.php">
                                 <i class="fas fa-file"></i>
                                 <span>Matakuliah/Dosen</span>
                             </a>
@@ -109,12 +109,73 @@ if($_SESSION['username'] == null){
         <div class="container-fluid">  
             <h3>Daftar Matakuliah</h3>
 
+            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <i class="fas fa-filter"></i>
+                </button>
+
+                <div class="collapse" id="collapseExample">
+                    <form action="index.php" method="get">
+                        <label>Semester :</label>
+                        <select class="drpdwn" name="cari">
+                            <option disabled selcted> Pilih </option>
+                            <?php
+                            include "../koneksi.php";
+
+                            $sql = "select * from semester order by smstr";
+
+                            $hasil = mysqli_query($koneksi, $sql);
+                            $no=0;
+                            while($data = mysqli_fetch_array($hasil)){
+                                $no++;
+                                ?>
+                                <option value="<?php echo $data['smstr']; ?>"><?php echo $data['smstr'] ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <label>Tahun Akademik :</label>
+
+                        <select name="thn" class="drpdwn">
+                            <option disabled selected> Pilih </option>
+                            <?php
+                            $sql = "select * from tahunakademik order by thn";
+
+                            $hasil = mysqli_query($koneksi,$sql);
+                            $no=0;
+                            while($data = mysqli_fetch_array($hasil)){
+                                $no++;
+                                ?>
+
+                                <option value="<?php echo $data['thn']?>"><?php echo $data['thn']?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        
+                        <button class="cari btn btn-secondary" type="submit">Cari</button>
+                    </form>
+
+                    
+                </div>
+
+                <br>
+
+                <?php
+                if(isset($_GET['cari']) AND isset($_GET['thn'])){
+                    $cari = $_GET['cari'];
+                    $thn = $_GET['thn'];
+                    echo "<b>Hasil pencarian : ".$cari." dan ".$thn,"</b>";
+                }
+                ?>
+
             <hr>
 
             <div class="table table-striped">
                 <form action="rate.php" method="get">
                     <table style="width:100%">
                         <tr>
+                            <th>Tahun Akademik</th>
+                            <th>Semester</th>
                             <th>Kode MK</th>
                             <th>Matakuliah</th>
                             <th>Kelas</th>
@@ -127,17 +188,26 @@ if($_SESSION['username'] == null){
                         include "../koneksi.php";
 
                         //query untuk menampilkan semua data user
-                        $sql = $pdo->prepare("select * from mk_pilh where mhs='$nama'");
-                        $sql->execute(); //eksekusi query
+                        // $sql = $pdo->prepare("select * from mk_pilh where mhs='$nama'");
+                        // $sql->execute(); //eksekusi query
 
-                        while($data = $sql->fetch()){
+                        // while($data = $sql->fetch()){
+                        if(isset($_GET['cari']) AND isset($_GET['thn'])){
+                            $cari = $_GET['cari'];
+                            $thn = $_GET['thn'];
+                            $data = mysqli_query($koneksi,"SELECT * FROM mk_pilh WHERE mhs='$nama' and smstr like '%$cari%' and tahunakademik like '%$thn%'");
+                        }else{
+                            $data = mysqli_query($koneksi,"select * from mk_pilh where mhs='$nama'");
+                        }while($d = mysqli_fetch_array($data)){
                             ?>
                             <tr>
-                                <td><?php echo $data['kodemk']; ?></td>
-                                <td><?php echo $data['matkul']; ?></td>
-                                <td><?php echo $data['kelas']; ?></td>
+                                <td><?php echo $d['tahunakademik']; ?></td>
+                                <td><?php echo $d['smstr']; ?></td>
+                                <td><?php echo $d['kodemk']; ?></td>
+                                <td><?php echo $d['matkul']; ?></td>
+                                <td><?php echo $d['kelas']; ?></td>
                                 <td>
-                                    <a href="rate.php?id=<?php echo $data['id'] ?>" type="button" class="btn btn-primary">Rate</a>
+                                    <a href="rate.php?id=<?php echo $d['id'] ?>" type="button" class="btn btn-primary">Rate</a>
                                 </td>
                             </tr>
                         <?php } ?>

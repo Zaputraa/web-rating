@@ -71,29 +71,14 @@ if($_SESSION['username'] == null){
                             </a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li>
-                                        <a href="../Dosen/index.php">Dosen</a>
-                                    </li>
-                                    <li>
-                                        <a href="../instruktur/index.php">Instruktur</a>
-                                    </li>
-                                    <li>
-                                        <a href="../asisten/index.php">Asisten Dosen</a>
-                                    </li>
-                                    <li>
+                                <li>
                                         <a href="../mk_pilih/index.php">Transaksi Matakuliah</a>
                                     </li>
                                     <li>
                                         <a href="../matakuliah/index.php">Matakuliah</a>
                                     </li>
                                     <li>
-                                        <a href="#">Rating</a>
-                                    </li>
-                                    <li>
-                                        <a href="../kelas/index.php">Kelas</a>
-                                    </li>
-                                    <li>
-                                        <a href="../thnakademik/index.php">Tahun Akademik</a>
+                                        <a href="../rate/index.php">Rating</a>
                                     </li>
                                 </ul>
                             </div>
@@ -106,7 +91,7 @@ if($_SESSION['username'] == null){
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="../user/test.php">Data Admin</a>
+                                        <a href="../user/list_admin.php">Data Admin</a>
                                     </li>
                                     <li>
                                         <a href="../user/list_dosen.php">Data Dosen</a>
@@ -120,6 +105,34 @@ if($_SESSION['username'] == null){
                                 </ul>
                             </div>
                         </li>
+                        <li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fas fa-database"></i>
+                                    <span>Data Master</span>
+                                </a>
+                                <div class="sidebar-submenu">
+                                    <ul>
+                                        <li>
+                                            <a href="../dosen/index.php">Dosen</a>
+                                        </li>
+                                        <li>
+                                            <a href="../instruktur/index.php">Instruktur</a>
+                                        </li>
+                                        <li>
+                                            <a href="../asisten/index.php">Asisten Dosen</a>
+                                        </li>
+                                        <li>
+                                            <a href="../kode_mk.php">Matakuliah</a>
+                                        </li>
+                                        <li>
+                                            <a href="../kelas/index.php">Kelas</a>
+                                        </li>
+                                        <li>
+                                            <a href="../thnakademik/index.php">Tahun Akademik</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                         <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fa fa-chart-line"></i>
@@ -151,7 +164,7 @@ if($_SESSION['username'] == null){
 
             <!-- Sidebar content -->
             <div class="sidebar-footer">              
-                <a href="../aut/logout.php">
+                <a href="../../aut/logout.php">
                     <i class="fa fa-power-off"></i>                    
                 </a>
             </div>

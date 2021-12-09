@@ -76,7 +76,7 @@ if($_SESSION['username'] == null){
                                         <a href="index.php">Matakuliah</a>
                                     </li>
                                     <li>
-                                        <a href="#">Rating</a>
+                                        <a href="../rate/index.php">Rating</a>
                                     </li>
                                 </ul>
                             </div>
@@ -161,13 +161,10 @@ if($_SESSION['username'] == null){
             </div>
 
             <!-- Sidebar content -->
-            <div class="sidebar-footer">                
-                <a href="../../index.php">
-                    <i class="fa fa-power-off"></i>
-                </a>    
-                <?php
-                //unset($_SESSION['username']);
-                ?>
+            <div class="sidebar-footer">              
+                <a href="../../aut/logout.php">
+                    <i class="fa fa-power-off"></i>                    
+                </a>
             </div>
         </nav>
 
@@ -175,9 +172,68 @@ if($_SESSION['username'] == null){
         <main class="page-content">
             <div class="container-fluid">
                 <h3>Data Matakuliah</h3>
+                
+                <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <i class="fas fa-filter"></i>
+                </button>
+
+                <div class="collapse" id="collapseExample">
+                    <form action="index.php" method="get">
+                        <label>Semester :</label>
+                        <select class="drpdwn" name="cari">
+                            <option disabled selcted> Pilih </option>
+                            <?php
+                            include "../../koneksi.php";
+
+                            $sql = "select * from semester order by smstr";
+
+                            $hasil = mysqli_query($koneksi, $sql);
+                            $no=0;
+                            while($data = mysqli_fetch_array($hasil)){
+                                $no++;
+                                ?>
+                                <option value="<?php echo $data['smstr']; ?>"><?php echo $data['smstr'] ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <label>Tahun Akademik :</label>
+
+                        <select name="thn" class="drpdwn">
+                            <option disabled selected> Pilih </option>
+                            <?php
+                            $sql = "select * from tahunakademik order by thn";
+
+                            $hasil = mysqli_query($koneksi,$sql);
+                            $no=0;
+                            while($data = mysqli_fetch_array($hasil)){
+                                $no++;
+                                ?>
+
+                                <option value="<?php echo $data['thn']?>"><?php echo $data['thn']?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        
+                        <button class="cari btn btn-secondary" type="submit">Cari</button>
+                    </form>
+
+                    
+                </div>
+
+                <br>
+
+                <?php
+                if(isset($_GET['cari']) AND isset($_GET['thn'])){
+                    $cari = $_GET['cari'];
+                    $thn = $_GET['thn'];
+                    echo "<b>Hasil pencarian : ".$cari." dan ".$thn,"</b>";
+                }
+                ?>
 
                 <hr>
-
+                
                 <div class="table table-striped">
                     <table style="width:100%">
                         <tr>
@@ -197,29 +253,30 @@ if($_SESSION['username'] == null){
                         //load file koneksi
                         include "../../koneksi.php";
 
-                        //buat query untuk menampilkan semua data user
-                        $sql = $pdo->prepare("select * from matkul");
-                        $sql->execute(); //eksekusi query
+                        if(isset($_GET['cari']) AND isset($_GET['thn'])){
+                            $cari = $_GET['cari'];
+                            $thn = $_GET['thn'];
+                            $data = mysqli_query($koneksi,"SELECT * FROM matkul WHERE smstr like '%$cari%' and tahunakademik like '%$thn%'");
+                        }else{
+                            $data = mysqli_query($koneksi,"select * from matkul order by tahunakademik");
+                        }while($d = mysqli_fetch_array($data)){
+                        ?>
 
-                        $no = 1; //untuk tabel awal di set dengan 1
-                        while($data = $sql->fetch()){
-                            ?>
-                            <tr>
-                                <td><?php echo $data['tahunakademik']; ?></td>
-                                <td><?php echo $data['smstr']; ?></td>
-                                <td><?php echo $data['kodemk']; ?></td>
-                                <td><?php echo $data['matkul']; ?></td>
-                                <td><?php echo $data['kelas']; ?></td>
-                                <td><?php echo $data['dosen']; ?></td>
-                                <td><?php echo $data['instruktur']; ?></td>
-                                <td><?php echo $data['asdos']; ?></td>
-                                <td>
-                                    <a type="button" class="btn btn-dark" href="aksi_edit.php?id=<?php echo $data['id']; ?>">Edit</a>
-                                    <a type="button" class="btn btn-danger" href="hapus.php?id=<?php echo $data['id']; ?>" onClick="return confirm('ingin menghapus data?')">Hapus</a>
-                                </td> 
-
-                            </tr>                                                      
-                            <?php } ?>
+                        <tr>
+                        <td><?php echo $d['tahunakademik']; ?></td>
+                        <td><?php echo $d['smstr']; ?></td>
+                        <td><?php echo $d['kodemk']; ?></td>
+                        <td><?php echo $d['matkul']; ?></td>
+                        <td><?php echo $d['kelas']; ?></td>
+                        <td><?php echo $d['dosen']; ?></td>
+                        <td><?php echo $d['instruktur']; ?></td>
+                        <td><?php echo $d['asdos']; ?></td>
+                        <td>
+                            <a type="button" class="btn btn-dark" href="aksi_edit.php?id=<?php echo $d['id']; ?>">Edit</a>
+                            <a type="button" class="btn btn-danger" href="hapus.php?id=<?php echo $d['id']; ?>" onClick="return confirm('ingin menghapus data?')">Hapus</a>
+                        </td>
+                        </tr>
+                        <?php } ?>
                     </table>
                 </div> 
                 

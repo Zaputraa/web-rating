@@ -130,7 +130,7 @@ if($_SESSION['username'] == null){
                                 <td><input type="text" class="input" name="tgl" value="<?php echo date('d / m / y'); ?>"></td>
                                 <td class="td-text">Rate</td>
                                 <td>
-                                    <select name="rate" class="dropdown">
+                                    <select name="rate_mk" class="dropdown">
                                         <option disabled selected>Pilih</option>
                                         <option>1</option>
                                         <option>2</option>
@@ -144,13 +144,11 @@ if($_SESSION['username'] == null){
                                 <td class="td-input">Semester </td>
                                 <td><input type="text" class="input" name="smstr" value="<?php echo $d['smstr']; ?>"></td>
                                 <td class="td-text"> Saran </td>
-                                <td><textarea name="saran" cols="50" rows="2" maxlength="500" required="required" type="text"></textarea></td>
+                                <td><textarea name="saran_mk" cols="50" rows="2" maxlength="500" required="required" type="text"></textarea></td>
                             </tr>
                             <tr>
                                 <td class="td-input">Tahun Akademik </td>
-                                <td><input type="text" class="input" name="thnakademik" value=<?php echo $d['tahunakademik']; ?>></td>
-                                <td></td>
-                                <td><input type="submit" class="simpan" value="SIMPAN"></td>
+                                <td><input type="text" class="input" name="thnakademik" value=<?php echo $d['tahunakademik']; ?>></td>                                
                             </tr>
                             <tr>
                                 <td class="td-input">Matakuliah </td>
@@ -167,10 +165,50 @@ if($_SESSION['username'] == null){
                             <tr>
                                 <td class="td-input">Instruktur </td>
                                 <td><input type="text" class="input" name="instruktur" value="<?php echo $d['instruktur']; ?>"></td>
+                                <td class="td-text">Rate</td>
+                                <td>
+                                    <select name="rate_instruktur" class="dropdown">
+                                        <option disabled selected>Pilih</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td class="td-text"> Saran </td>
+                                <td><textarea name="saran_instruktur" cols="50" rows="2" maxlength="500" required="required" type="text"></textarea></td>
                             </tr>
                             <tr>
                                 <td class="td-input">Asisten Dosen  </td>
                                 <td><input type="text" class="input" name="asdos" value="<?php echo $d['asdos']; ?>"></td>
+                                <td class="td-text">Rate</td>
+                                <td>
+                                    <select name="rate_asdos" class="dropdown">
+                                        <option disabled selected>Pilih</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td class="td-text"> Saran </td>
+                                <td><textarea name="saran_asdos" cols="50" rows="2" maxlength="500" required="required" type="text"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><input type="submit" class="simpan" value="SIMPAN"></td>
                             </tr>
                         </table>
                     </form>

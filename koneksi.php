@@ -1,5 +1,5 @@
 <?php
-$koneksi = mysqli_connect("localhost","root","","db_webrating");
+$koneksi = mysqli_connect("localhost","root","","db_webrating") or die(mysqli_error());
 
 //check connection
 if(mysqli_connect_errno()){
